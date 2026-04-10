@@ -1,0 +1,3128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Portfolio</title>
+<meta name="description" id="meta-desc" content="">
+<meta name="keywords" id="meta-keywords" content="">
+<meta property="og:title" id="og-title" content="">
+<meta property="og:description" id="og-desc" content="">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --a1:#7C3AED;--a2:#06B6D4;--a3:#F59E0B;
+  --bg:#080810;--bg2:#0F0F1A;--bg3:#161624;--bg4:#1E1E30;
+  --t1:#F0F0F8;--t2:#9090A8;--t3:#5A5A72;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --radius:12px;--radius-lg:18px;
+  --font:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --grd:linear-gradient(135deg,var(--a1),var(--a2));
+}
+[data-theme=light]{
+  --bg:#F4F4FB;--bg2:#FFFFFF;--bg3:#EEEEF8;--bg4:#E5E5F5;
+  --t1:#0A0A18;--t2:#4A4A68;--t3:#8A8AAA;
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.13);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);transition:background .3s,color .3s;overflow-x:hidden;line-height:1.6}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--a1);border-radius:3px}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;transition:background .3s}
+#nav.scrolled{background:rgba(8,8,16,.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--border)}
+[data-theme=light] #nav.scrolled{background:rgba(244,244,251,.92)}
+.nav-logo{font-size:1.15rem;font-weight:800;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--t2);transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--grd);transform:scaleX(0);transition:transform .2s;border-radius:1px}
+.nav-links a:hover{color:var(--t1)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-r{display:flex;align-items:center;gap:.75rem}
+.avail-badge{display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);border-radius:99px;font-size:.75rem;font-weight:600;color:#10B981}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:#10B981;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.btn-sm{padding:.4rem .9rem;border-radius:8px;font-size:.8rem;font-weight:600;border:1px solid var(--border2);background:transparent;color:var(--t1);transition:all .2s}
+.btn-sm:hover{border-color:var(--a1);color:var(--a1)}
+.hamburger{display:none;background:none;border:none;color:var(--t1);font-size:1.4rem}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:1.5rem 2rem;flex-direction:column;gap:1.25rem;z-index:199}
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:1rem;font-weight:500;color:var(--t2)}
+
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:var(--grd);color:#fff;border-radius:10px;font-weight:700;font-size:.95rem;border:none;transition:transform .2s,opacity .2s}
+.btn-primary:hover{transform:translateY(-2px);opacity:.88}
+.btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:transparent;color:var(--t1);border:1.5px solid var(--border2);border-radius:10px;font-weight:600;font-size:.95rem;transition:all .2s}
+.btn-outline:hover{border-color:var(--a1);color:var(--a1)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;overflow:hidden}
+.hero-canvas{position:absolute;inset:0;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:760px}
+.hero-avail{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:99px;font-size:.78rem;font-weight:600;color:#10B981;margin-bottom:1.75rem;animation:fadeUp .5s ease both}
+.hero-title{font-size:clamp(2.8rem,7vw,5.2rem);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.25rem;animation:fadeUp .5s .1s ease both}
+.hero-title .grad{background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-tagline{font-size:clamp(1rem,2vw,1.2rem);color:var(--t2);max-width:560px;margin:0 auto 2.5rem;line-height:1.7;animation:fadeUp .5s .2s ease both}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .5s .3s ease both}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.75rem;color:var(--t3);animation:fadeIn 1s 1s both}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--t3),transparent)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* SECTIONS */
+.section{padding:6rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-eyebrow{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--a1);margin-bottom:.6rem}
+.section-h{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.75rem}
+.section-sub{color:var(--t2);font-size:1rem;max-width:480px;line-height:1.7;margin-bottom:3rem}
+.divider{width:40px;height:3px;background:var(--grd);border-radius:99px;margin-bottom:2rem}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-l{opacity:0;transform:translateX(-30px);transition:opacity .65s ease,transform .65s ease}
+.reveal-l.visible{opacity:1;transform:none}
+.reveal-r{opacity:0;transform:translateX(30px);transition:opacity .65s ease,transform .65s ease}
+.reveal-r.visible{opacity:1;transform:none}
+
+/* ABOUT */
+#about{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.avatar-ring{width:180px;height:180px;border-radius:50%;padding:3px;background:var(--grd)}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:5rem;overflow:hidden}
+.avatar-inner img{width:100%;height:100%;object-fit:cover}
+.about-visual{display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.about-name-card{text-align:center}
+.about-name-card h3{font-size:1.3rem;font-weight:700;margin-bottom:.2rem}
+.about-name-card p{font-size:.875rem;color:var(--t2)}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;width:100%}
+.stat-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;text-align:center;transition:border-color .2s}
+.stat-box:hover{border-color:var(--a1)}
+.stat-num{font-size:2rem;font-weight:800;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.stat-label{font-size:.75rem;color:var(--t2);margin-top:.3rem}
+.about-desc{color:var(--t2);line-height:1.8;margin-bottom:1.75rem;font-size:.95rem}
+.spec-wrap{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.spec-tag{padding:.3rem .8rem;background:var(--bg3);border:1px solid var(--border);border-radius:99px;font-size:.78rem;color:var(--t2);transition:all .2s}
+.spec-tag:hover{border-color:var(--a1);color:var(--a1)}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem}
+.skill-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;transition:border-color .2s}
+.skill-card:hover{border-color:var(--border2)}
+.skill-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem}
+.skill-name{font-size:.9rem;font-weight:600}
+.skill-pct{font-size:.8rem;font-weight:700;color:var(--a1)}
+.skill-track{height:5px;background:var(--bg4);border-radius:99px;overflow:hidden}
+.skill-bar{height:100%;background:var(--grd);border-radius:99px;width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
+
+/* PROJECTS */
+#projects{background:var(--bg2)}
+.filter-wrap{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.f-btn{padding:.4rem 1rem;background:var(--bg3);border:1px solid var(--border);border-radius:99px;font-size:.82rem;font-weight:600;color:var(--t2);transition:all .2s}
+.f-btn.active,.f-btn:hover{background:var(--a1);border-color:var(--a1);color:#fff}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.5rem}
+.proj-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
+.proj-card:hover{transform:translateY(-6px);border-color:rgba(124,58,237,.4);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.proj-thumb{height:200px;position:relative;overflow:hidden;background:var(--bg4)}
+.proj-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.proj-card:hover .proj-thumb img{transform:scale(1.05)}
+.proj-thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem}
+.proj-type-chip{position:absolute;top:.75rem;left:.75rem;padding:.25rem .65rem;border-radius:99px;font-size:.7rem;font-weight:700;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.proj-body{padding:1.35rem;flex:1;display:flex;flex-direction:column}
+.proj-name{font-size:1.05rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.02em}
+.proj-desc{font-size:.85rem;color:var(--t2);line-height:1.65;flex:1;margin-bottom:1rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem}
+.proj-tag{padding:.18rem .55rem;background:var(--bg4);border:1px solid var(--border);border-radius:4px;font-size:.7rem;color:var(--t3);font-family:var(--mono)}
+.proj-cta{font-size:.82rem;font-weight:600;color:var(--a1);display:flex;align-items:center;gap:.35rem;transition:gap .2s}
+.proj-card:hover .proj-cta{gap:.6rem}
+
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
+.svc-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 1.75rem;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+.svc-card::before{content:'';position:absolute;inset:0;background:var(--grd);opacity:0;transition:opacity .3s}
+.svc-card:hover{transform:translateY(-4px);border-color:rgba(124,58,237,.4)}
+.svc-card:hover::before{opacity:.05}
+.svc-icon-wrap{width:48px;height:48px;border-radius:12px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.25rem;position:relative}
+.svc-name{font-size:1rem;font-weight:700;margin-bottom:.5rem;position:relative}
+.svc-desc{font-size:.85rem;color:var(--t2);line-height:1.7;position:relative}
+.svc-price{display:inline-block;margin-top:.85rem;font-size:.78rem;font-weight:700;color:var(--a1);padding:.2rem .6rem;background:rgba(124,58,237,.1);border-radius:4px;position:relative}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--bg)}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+.testi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;transition:border-color .2s,transform .2s}
+.testi-card:hover{border-color:var(--border2);transform:translateY(-3px)}
+.testi-quote{font-size:2.5rem;line-height:1;color:var(--a1);opacity:.4;margin-bottom:.75rem;font-family:Georgia,serif}
+.testi-text{font-size:.9rem;color:var(--t2);line-height:1.75;margin-bottom:1.25rem;font-style:italic}
+.testi-footer{display:flex;align-items:center;gap:.75rem}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:var(--grd);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0}
+.testi-name{font-size:.875rem;font-weight:600}
+.testi-role{font-size:.75rem;color:var(--t3)}
+.testi-stars{display:flex;gap:.15rem;margin-left:auto}
+.star{color:var(--a3);font-size:.85rem}
+
+/* CONTACT */
+#contact{background:var(--bg2)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start}
+.contact-info-head h3{font-size:1.25rem;font-weight:700;margin-bottom:.6rem}
+.contact-info-head p{font-size:.9rem;color:var(--t2);line-height:1.75;margin-bottom:2rem}
+.c-links{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+.c-link{display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:border-color .2s,transform .2s}
+.c-link:hover{border-color:var(--a1);transform:translateX(4px)}
+.c-link-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.c-link-label{font-size:.72rem;color:var(--t3);font-weight:500}
+.c-link-val{font-size:.875rem;font-weight:600}
+.c-link-copy{margin-left:auto;font-size:.72rem;color:var(--a1);font-weight:600;opacity:0;transition:opacity .2s}
+.c-link:hover .c-link-copy{opacity:1}
+.contact-form{display:flex;flex-direction:column;gap:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.f-group{display:flex;flex-direction:column;gap:.4rem}
+.f-group label{font-size:.78rem;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}
+.f-group input,.f-group textarea,.f-group select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;color:var(--t1);font-family:var(--font);font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical}
+.f-group input:focus,.f-group textarea:focus,.f-group select:focus{border-color:var(--a1);box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+.f-group textarea{min-height:130px}
+.f-group select option{background:var(--bg2)}
+.form-status{font-size:.85rem;padding:.75rem 1rem;border-radius:8px;display:none}
+.form-status.ok{display:block;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:#10B981}
+.form-status.err{display:block;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#EF4444}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-l{font-size:.8rem;color:var(--t3)}
+.footer-r{display:flex;gap:1.25rem}
+.footer-r a{font-size:.8rem;color:var(--t3);transition:color .2s}
+.footer-r a:hover{color:var(--a1)}
+
+/* STICKY CTA */
+.sticky-cta{position:fixed;bottom:1.75rem;right:1.75rem;z-index:150}
+.sticky-cta a{display:flex;align-items:center;gap:.6rem;padding:.7rem 1.2rem;border-radius:10px;font-size:.85rem;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .2s;background:var(--grd);color:#fff}
+.sticky-cta a:hover{transform:translateY(-2px)}
+
+/* ══════════════════════════════════════
+   PROJECT MODAL
+══════════════════════════════════════ */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px)}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;max-width:660px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;transform:scale(.96);transition:transform .25s}
+.modal-bg.open .modal-box{transform:scale(1)}
+
+/* Modal header */
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:1.5rem 1.75rem 0;flex-shrink:0}
+.modal-head-left h2{font-size:1.3rem;font-weight:800;letter-spacing:-.03em}
+.modal-head-left span{font-size:.8rem;color:var(--t2)}
+.modal-close{width:34px;height:34px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--t1);font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.modal-close:hover{background:rgba(239,68,68,.15);color:#EF4444;border-color:#EF4444}
+
+/* Tab bar inside modal */
+.modal-tabs{display:flex;gap:.35rem;padding:.85rem 1.75rem 0;flex-shrink:0;border-bottom:1px solid var(--border)}
+.modal-tab{padding:.45rem 1rem;font-size:.82rem;font-weight:600;border-radius:8px 8px 0 0;border:none;background:transparent;color:var(--t2);cursor:pointer;transition:all .2s;position:relative;bottom:-1px;border:1px solid transparent;border-bottom:none}
+.modal-tab.active{background:var(--bg2);color:var(--t1);border-color:var(--border);border-bottom-color:var(--bg2)}
+.modal-tab:hover:not(.active){color:var(--t1)}
+
+/* Modal scrollable body */
+.modal-body{overflow-y:auto;flex:1}
+
+/* Overview tab */
+.modal-overview{padding:1.25rem 1.75rem 1.75rem}
+.modal-img{height:220px;border-radius:14px;overflow:hidden;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:5rem;margin-bottom:1.25rem}
+.modal-img img{width:100%;height:100%;object-fit:cover}
+.modal-desc{font-size:.9rem;color:var(--t2);line-height:1.75;margin-bottom:1.1rem}
+.modal-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.modal-section-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--a1);margin-bottom:.75rem}
+.modal-feat{display:flex;align-items:flex-start;gap:.75rem;padding:.7rem;background:var(--bg3);border-radius:8px;margin-bottom:.4rem;font-size:.85rem;line-height:1.55}
+.modal-feat-icon{color:var(--a1);flex-shrink:0;margin-top:.1rem}
+
+/* ══════════════════════════════════════
+   CODE VIEWER TAB
+══════════════════════════════════════ */
+.modal-code-wrap{display:flex;flex-direction:column;height:100%}
+
+/* File tabs strip */
+.code-file-tabs{display:flex;gap:.35rem;padding:.85rem 1rem .6rem;background:var(--bg3);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
+.code-file-tabs::-webkit-scrollbar{height:3px}
+.code-file-tab{display:flex;align-items:center;gap:.5rem;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:600;font-family:var(--mono);border:1px solid transparent;background:transparent;color:var(--t2);cursor:pointer;white-space:nowrap;transition:all .15s}
+.code-file-tab.active{background:var(--bg2);color:var(--t1);border-color:var(--border)}
+.code-file-tab:hover:not(.active){background:var(--bg4);color:var(--t1)}
+.code-file-dot{width:8px;height:8px;border-radius:50%}
+
+/* Code toolbar */
+.code-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--bg3);border-bottom:1px solid var(--border);flex-shrink:0}
+.code-lang-badge{font-size:.72rem;font-weight:700;font-family:var(--mono);padding:.2rem .6rem;border-radius:4px;background:rgba(124,58,237,.15);color:var(--a1);border:1px solid rgba(124,58,237,.25)}
+.code-toolbar-r{display:flex;gap:.5rem;align-items:center}
+.code-lines-count{font-size:.72rem;color:var(--t3);font-family:var(--mono)}
+.code-copy-btn{display:flex;align-items:center;gap:.4rem;padding:.35rem .8rem;border-radius:6px;font-size:.75rem;font-weight:600;border:1px solid var(--border2);background:transparent;color:var(--t2);transition:all .2s}
+.code-copy-btn:hover{border-color:var(--a1);color:var(--a1)}
+.code-copy-btn.copied{border-color:#10B981;color:#10B981}
+
+/* Code block */
+.code-scroll{overflow:auto;flex:1;background:var(--bg)}
+.code-block{display:table;min-width:100%;padding:.5rem 0}
+.code-line{display:table-row}
+.code-line:hover .code-ln,.code-line:hover .code-text{background:rgba(124,58,237,.06)}
+.code-ln{display:table-cell;padding:.1rem 1rem .1rem .75rem;font-size:.78rem;font-family:var(--mono);color:var(--t3);text-align:right;user-select:none;vertical-align:top;white-space:nowrap;min-width:3rem;border-right:1px solid var(--border)}
+.code-text{display:table-cell;padding:.1rem 1rem .1rem .85rem;font-size:.8rem;font-family:var(--mono);line-height:1.65;white-space:pre;vertical-align:top;color:var(--t1)}
+
+/* Lua syntax highlight colours */
+.kw{color:#C084FC}     /* keywords */
+.fn{color:#60A5FA}     /* functions */
+.str{color:#86EFAC}    /* strings */
+.num{color:#FCA5A5}    /* numbers */
+.cmt{color:#4B5563;font-style:italic} /* comments */
+.op{color:#F9A8D4}     /* operators */
+.builtin{color:#67E8F9}/* built-ins */
+
+/* Empty code state */
+.code-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;text-align:center;color:var(--t3);gap:.75rem;height:100%}
+.code-empty-icon{font-size:2.5rem;opacity:.4}
+.code-empty p{font-size:.875rem;line-height:1.6;max-width:300px}
+.code-empty code{font-family:var(--mono);font-size:.8rem;background:var(--bg3);padding:.2rem .5rem;border-radius:4px;color:var(--a1)}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:1px solid var(--border2);color:var(--t1);padding:.75rem 1.5rem;border-radius:10px;font-size:.875rem;z-index:400;opacity:0;transition:all .3s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .sticky-cta{bottom:1rem;right:1rem}
+}
+@media(max-width:480px){
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-primary,.btn-outline{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     CONFIG — edit everything here
+══════════════════════════════════════════════════════ -->
+<script>
+const C = {
+  name:       "OneWire",
+  title:      "Roblox Scripter",
+  tagline:    "I build Roblox systems that players love\nand studios trust.",
+  tagline2:   "From combat engines to polished UIs — clean Lua, zero shortcuts.",
+  available:  true,
+  avatar:     "https://res.cloudinary.com/dz6lx92gj/image/upload/v1775848339/profile_picture_z2i0py.webp",  
+  avatarEmoji:"👨‍💻",
+
+  seoKeywords: "Roblox scripter, Lua developer, Roblox commission, combat system, UI scripting",
+
+  discord:  "onewire2",
+  email:    "rbatina2011@gmail.com",
+
+  emailjs: {
+    publicKey:   "i8HuaTibYhCLJ8uRq",
+    serviceId:   "service_k9npujl",
+    templateId:  "template_hjv9zot",
+  },
+
+  stats: { experience:"1+", projects:"5+", clients:"6+", delivery:"100%" },
+
+  defaultTheme: "dark",
+  accent1: "#7C3AED",
+  accent2: "#06B6D4",
+
+  sections: { about:true, skills:true, projects:true, services:true, testimonials:true, contact:true },
+
+  bio: "Passionate Lua developer with 1+ years building professional-grade Roblox experiences. I specialize in robust gameplay systems and performance-critical backends that scale.",
+
+  specialties: ["Combat Systems","UI/UX","Datastores","Anti-Cheat","Animations","Optimization","Networking","Pathfinding"],
+
+  skills: [
+    {name:"Lua / Luau",              pct:95},
+    {name:"Roblox API",              pct:92},
+    {name:"UI Scripting",            pct:90},
+    {name:"Datastores / Profiles",   pct:87},
+    {name:"Server-side Networking",  pct:85},
+    {name:"Performance Optimization",pct:82},
+  ],
+
+  /* ══════════════════════════════════════════════════════
+     PROJECTS
+     ─────────
+     Each project can have a `files` array.
+     Each file has:
+       name     — displayed filename (e.g. "CombatModule.lua")
+       language — syntax highlight hint (only "lua" supported, others show plain)
+       code     — the full source code as a template literal string
+
+     Leave `files: []` or omit it entirely to show the
+     "No code attached" placeholder.
+  ══════════════════════════════════════════════════════ */
+  projects: [
+    {
+      id:1, name:"Apex Combat System", type:"Gameplay",
+      image:"https://res.cloudinary.com/dz6lx92gj/image/upload/q_auto/f_auto/v1775859989/Capture_d_%C3%A9cran_2026-04-11_002616_hnuolq.png",
+      desc:"Production-ready combat framework featuring combo chains, authoritative hitboxes and custom animations.",
+      features:["Server-authoritative hitbox detection","Multi-hit combo chains with cancels","Custom AnimationTrack blending","Stamina & cooldown management","Lag compensation layer"],
+      tags:["Luau","RemoteEvents","AnimationTrack","TweenService","RunService"],
+      files: [
+        {
+          name: "StarterClient.lua",
+          language: "lua",
+          code:
+`local Players           = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService  = game:GetService("UserInputService")
+local RunService        = game:GetService("RunService")
+local TweenService      = game:GetService("TweenService")
+
+local player     = Players.LocalPlayer
+local character  = player.Character or player.CharacterAdded:Wait()
+local humanoid   = character:WaitForChild("Humanoid")
+local animator   = humanoid:WaitForChild("Animator")
+
+local Remotes         = ReplicatedStorage:WaitForChild("CombatRemotes")
+local RequestAttack   = Remotes:WaitForChild("RequestAttack")
+local AttackConfirmed = Remotes:WaitForChild("AttackConfirmed")
+local SyncStamina     = Remotes:WaitForChild("SyncStamina")
+local HitEffect       = Remotes:WaitForChild("HitEffect")
+
+local ANIM_IDS = {
+	light  = {
+		"rbxassetid://101594308800646",
+		"rbxassetid://133859260793268",
+		"rbxassetid://112106833958770",
+		"rbxassetid://105408091489034",
+		"rbxassetid://124347672526265",
+	},
+	heavy   = "rbxassetid://88356598277338",
+	block   = "rbxassetid://105654830309460",
+	hit     = "rbxassetid://118225107852774",
+	stagger = "rbxassetid://107981759644097",
+}
+
+local animations = { light = {}, special = {} }
+for i, id in ipairs(ANIM_IDS.light) do
+	local anim = Instance.new("Animation")
+	anim.AnimationId = id
+	animations.light[i] = animator:LoadAnimation(anim)
+	animations.light[i].Priority = Enum.AnimationPriority.Action
+end
+local function loadAnim(id, priority)
+	local anim = Instance.new("Animation")
+	anim.AnimationId = id
+	local track = animator:LoadAnimation(anim)
+	track.Priority = priority or Enum.AnimationPriority.Action
+	return track
+end
+local blockTrack   = loadAnim(ANIM_IDS.block,   Enum.AnimationPriority.Action2)
+local heavyTrack   = loadAnim(ANIM_IDS.heavy)
+local hitTrack     = loadAnim(ANIM_IDS.hit,     Enum.AnimationPriority.Action2)
+local staggerTrack = loadAnim(ANIM_IDS.stagger, Enum.AnimationPriority.Action2)
+
+local staminaBar
+do
+	local screen = Instance.new("ScreenGui", player.PlayerGui)
+	screen.Name = "CombatUI"; screen.ResetOnSpawn = false
+	local frame = Instance.new("Frame", screen)
+	frame.Size = UDim2.new(0, 200, 0, 10)
+	frame.Position = UDim2.new(0.5, -100, 1, -40)
+	frame.BackgroundColor3 = Color3.fromHex("#1A1A2E")
+	frame.BorderSizePixel = 0
+	Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 5)
+	staminaBar = Instance.new("Frame", frame)
+	staminaBar.Size = UDim2.new(1, 0, 1, 0)
+	staminaBar.BackgroundColor3 = Color3.fromHex("#7C3AED")
+	staminaBar.BorderSizePixel = 0
+	Instance.new("UICorner", staminaBar).CornerRadius = UDim.new(0, 5)
+end
+
+local canAttack = true
+local isBlocking = false
+
+UserInputService.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+
+	if input.UserInputType == Enum.UserInputType.MouseButton1
+		or input.KeyCode == Enum.KeyCode.F then
+		if not canAttack then return end
+		RequestAttack:FireServer("light", os.clock())
+		canAttack = false
+		task.delay(0.35, function() canAttack = true end)
+	end
+
+	if input.KeyCode == Enum.KeyCode.E then
+		if not canAttack then return end
+		RequestAttack:FireServer("heavy", os.clock())
+		canAttack = false
+		task.delay(0.65, function() canAttack = true end)
+	end
+
+	if input.KeyCode == Enum.KeyCode.F then
+		isBlocking = true
+		RequestAttack:FireServer("block_start", os.clock())
+		blockTrack:Play()
+	end
+end)
+
+UserInputService.InputEnded:Connect(function(input, gpe)
+	if input.KeyCode == Enum.KeyCode.F and isBlocking then
+		isBlocking = false
+		RequestAttack:FireServer("block_end", os.clock())
+		blockTrack:Stop()
+	end
+end)
+
+AttackConfirmed.OnClientEvent:Connect(function(attackType, comboIdx)
+	for _, track in ipairs(animations.light) do
+		if track.IsPlaying then
+			track:Stop(0.1)
+		end
+	end
+
+	if attackType == "light" then
+		local track = animations.light[comboIdx] or animations.light[1]
+		track:Play(0.05)
+	elseif attackType == "heavy" then
+		heavyTrack:Play(0.05)
+	end
+end)
+
+HitEffect.OnClientEvent:Connect(function(outcome, damage)
+	if outcome == "blocked" then
+		local cam = workspace.CurrentCamera
+		local orig = cam.CFrame
+		TweenService:Create(cam, TweenInfo.new(0.05), {CFrame = orig * CFrame.Angles(0,0,math.rad(1))}):Play()
+		task.delay(0.05, function()
+			TweenService:Create(cam, TweenInfo.new(0.08), {CFrame = orig}):Play()
+		end)
+	else
+		hitTrack:Play()
+		local flash = Instance.new("Frame", player.PlayerGui:FindFirstChild("CombatUI"))
+		flash.Size = UDim2.new(1,0,1,0)
+		flash.BackgroundColor3 = Color3.fromHex("#FF4444")
+		flash.BackgroundTransparency = 0.7
+		flash.BorderSizePixel = 0
+		flash.ZIndex = 10
+		TweenService:Create(flash, TweenInfo.new(0.25), {BackgroundTransparency = 1}):Play()
+		task.delay(0.25, function() flash:Destroy() end)
+	end
+end)
+
+SyncStamina.OnClientEvent:Connect(function(stamina)
+	local pct = math.clamp(stamina / 100, 0, 1)
+	TweenService:Create(staminaBar, TweenInfo.new(0.15), {
+		Size = UDim2.new(pct, 0, 1, 0),
+		BackgroundColor3 = pct > 0.4
+			and Color3.fromHex("#7C3AED")
+			or  Color3.fromHex("#EF4444"),
+	}):Play()
+end)`
+        },
+        {
+          name: "CombatModule",
+          language: "lua",
+          code:
+`local CombatModule = {}
+CombatModule.__index = CombatModule
+
+local RunService  = game:GetService("RunService")
+local Players     = game:GetService("Players")
+local CONFIG = {
+
+	COMBO_WINDOW      = 0.65,
+	MAX_COMBO         = 5,
+	COMBO_RESET_DELAY = 1.2,
+
+	MAX_STAMINA       = 100,
+	STAMINA_REGEN     = 12,
+	STAMINA_REGEN_DELAY = 1.5,
+	STAMINA_COSTS = {
+		light  = 10,
+		heavy  = 22,
+		block  = 5,
+	},
+
+	HITBOX = {
+		light = Vector3.new(5, 5, 6),
+		heavy = Vector3.new(6, 5, 8),
+	},
+
+	DAMAGE = {
+		light  = { 12, 15, 15, 18, 25 },
+		heavy  = 35,
+		blocked = 0,
+	},
+
+	MAX_LAG_COMP_MS   = 300,
+
+	KNOCKBACK = {
+		light = 20,
+		heavy = 55,
+	},
+
+	ANIMS = {
+		light = {
+			"rbxassetid://11111111",
+			"rbxassetid://11111112",
+			"rbxassetid://11111113",
+			"rbxassetid://11111114",
+			"rbxassetid://11111115",
+		},
+		heavy  = "rbxassetid://11111120",
+		block  = "rbxassetid://11111121",
+		hit    = "rbxassetid://11111122",
+		stagger= "rbxassetid://11111123",
+	},
+}
+local playerStates = {}
+function CombatModule.new(player)
+	local self = setmetatable({}, CombatModule)
+	self.player         = player
+	self.combo          = 0
+	self.comboTimer     = 0
+	self.stamina        = CONFIG.MAX_STAMINA
+	self.staminaTimer   = 0
+	self.blocking       = false
+	self.attacking      = false
+	self.lastAttackTime = 0
+	self.hitHistory     = {}
+	playerStates[player] = self
+	return self
+end
+
+function CombatModule:tickStamina(dt)
+	self.staminaTimer = self.staminaTimer + dt
+
+	if self.staminaTimer >= CONFIG.STAMINA_REGEN_DELAY then
+		self.stamina = math.min(
+			CONFIG.MAX_STAMINA,
+			self.stamina + CONFIG.STAMINA_REGEN * dt
+		)
+	end
+end
+
+function CombatModule:consumeStamina(amount)
+	if self.stamina < amount then return false end
+	self.stamina = self.stamina - amount
+	self.staminaTimer = 0
+	return true
+end
+
+function CombatModule:recordPosition()
+	local char = self.player.Character
+	if not char then return end
+	local root = char:FindFirstChild("HumanoidRootPart")
+	if not root then return end
+
+	table.insert(self.hitHistory, {
+		time = os.clock(),
+		cframe = root.CFrame,
+	})
+
+	local cutoff = os.clock() - 0.5
+	while self.hitHistory[1] and self.hitHistory[1].time < cutoff do
+		table.remove(self.hitHistory, 1)
+	end
+end
+
+function CombatModule:getPositionAt(timestamp)
+	local hist = self.hitHistory
+	if #hist == 0 then
+		local char = self.player.Character
+		if char then
+			local root = char:FindFirstChild("HumanoidRootPart")
+			if root then return root.CFrame end
+		end
+		return nil
+	end
+
+	for i = #hist, 1, -1 do
+		if hist[i].time <= timestamp then
+			return hist[i].cframe
+		end
+	end
+	return hist[1].cframe
+end
+
+function CombatModule:castHitbox(attackType, clientTimestamp)
+	local attacker   = self.player.Character
+	if not attacker then return {} end
+	local attackRoot = attacker:FindFirstChild("HumanoidRootPart")
+	if not attackRoot then return {} end
+
+	local boxSize = CONFIG.HITBOX[attackType]
+
+	local serverNow   = os.clock()
+	local clientPing  = math.min(
+		(serverNow - clientTimestamp) * 1000,
+		CONFIG.MAX_LAG_COMP_MS
+	)
+	local rewindTime  = serverNow - (clientPing / 1000)
+
+	local hitboxCF = attackRoot.CFrame * CFrame.new(0, 0, -(boxSize.Z / 2))
+
+	local params = OverlapParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = { attacker }
+
+	local parts = workspace:GetPartBoundsInBox(hitboxCF, boxSize, params)
+	local hit   = {}
+	local seen  = {}
+
+	for _, part in ipairs(parts) do
+		local char = part.Parent
+		if not char then continue end
+		local hum = char:FindFirstChildOfClass("Humanoid")
+		if not hum or hum.Health <= 0 then continue end
+		if seen[char] then continue end
+		seen[char] = true
+
+		local targetPlayer = Players:GetPlayerFromCharacter(char)
+		if targetPlayer then
+			local targetState = playerStates[targetPlayer]
+			if targetState then
+				local rewindCF = targetState:getPositionAt(rewindTime)
+				if rewindCF then
+					local dist = (rewindCF.Position - attackRoot.Position).Magnitude
+					if dist <= boxSize.Z + 2 then
+						table.insert(hit, { char = char, hum = hum, player = targetPlayer })
+					end
+					continue
+				end
+			end
+		end
+
+		table.insert(hit, { char = char, hum = hum, player = nil })
+	end
+
+	return hit
+end
+
+function CombatModule:applyHit(target, attackType, comboIndex)
+	local hum      = target.hum
+	local char     = target.char
+
+	local targetPlayer = target.player
+	local isBlocked = false
+	if targetPlayer then
+		local ts = playerStates[targetPlayer]
+		if ts and ts.blocking then
+			isBlocked = true
+			ts:consumeStamina(CONFIG.STAMINA_COSTS.block)
+		end
+	end
+
+	if isBlocked then
+		hum:TakeDamage(CONFIG.DAMAGE.blocked)
+		return "blocked"
+	end
+
+	local dmg
+	if attackType == "light" then
+		local idx = math.clamp(comboIndex, 1, #CONFIG.DAMAGE.light)
+		dmg = CONFIG.DAMAGE.light[idx]
+	else
+		dmg = CONFIG.DAMAGE.heavy
+	end
+	hum:TakeDamage(dmg)
+
+	local root = char:FindFirstChild("HumanoidRootPart")
+	local attackRoot = self.player.Character
+		and self.player.Character:FindFirstChild("HumanoidRootPart")
+	if root and attackRoot then
+		local dir = (root.Position - attackRoot.Position).Unit
+		local force = CONFIG.KNOCKBACK[attackType]
+		local att = Instance.new("Attachment", root)
+		local vf  = Instance.new("VectorForce")
+		vf.Attachment0 = att
+		vf.Force       = (dir + Vector3.new(0, 0.3, 0)) * force * root.AssemblyMass
+		vf.RelativeTo  = Enum.ActuatorRelativeTo.World
+		vf.Parent      = root
+		task.delay(0.08, function()
+			vf:Destroy(); att:Destroy()
+		end)
+	end
+
+	return "hit", dmg
+end
+
+function CombatModule:processAttack(attackType, clientTimestamp)
+	if self.attacking then return false, "busy" end
+
+	local cost = CONFIG.STAMINA_COSTS[attackType]
+	if not self:consumeStamina(cost) then
+		return false, "no_stamina"
+	end
+
+	local comboIndex = 1
+	if attackType == "light" then
+		local now = os.clock()
+		if now - self.lastAttackTime <= CONFIG.COMBO_WINDOW
+			and self.combo < CONFIG.MAX_COMBO then
+			self.combo = self.combo + 1
+		else
+			self.combo = 1
+		end
+		comboIndex       = self.combo
+		self.lastAttackTime = now
+	else
+		self.combo = 0
+	end
+
+	self.attacking = true
+
+	local hits = self:castHitbox(attackType, clientTimestamp)
+	local results = {}
+
+	for _, target in ipairs(hits) do
+		local outcome, dmg = self:applyHit(target, attackType, comboIndex)
+		table.insert(results, {
+			target  = target.player or target.char.Name,
+			outcome = outcome,
+			damage  = dmg or 0,
+		})
+	end
+
+	local animDelay = attackType == "heavy" and 0.7 or 0.4
+	task.delay(animDelay, function()
+		self.attacking = false
+		if self.combo >= CONFIG.MAX_COMBO then
+			self.combo = 0
+			task.delay(CONFIG.COMBO_RESET_DELAY - animDelay, function() end)
+		end
+	end)
+
+	return true, results, comboIndex
+end
+
+function CombatModule:setBlock(state)
+	self.blocking = state
+end
+
+function CombatModule:destroy()
+	playerStates[self.player] = nil
+end
+
+function CombatModule.tickAll(dt)
+	for _, state in pairs(playerStates) do
+		state:tickStamina(dt)
+		state:recordPosition()
+	end
+end
+
+function CombatModule.getState(player)
+	return playerStates[player]
+end
+
+return CombatModule`
+        },
+        {
+          name: "CombatServer",
+          language: "lua",
+          code:
+`local Players      = game:GetService("Players")
+local RunService   = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CombatModule = require(script.Parent.CombatModule)
+local Remotes      = ReplicatedStorage:WaitForChild("CombatRemotes")
+local RequestAttack   = Remotes:WaitForChild("RequestAttack")
+local AttackConfirmed = Remotes:WaitForChild("AttackConfirmed")
+local SyncStamina     = Remotes:WaitForChild("SyncStamina")
+local HitEffect       = Remotes:WaitForChild("HitEffect")
+
+Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function()
+		CombatModule.new(player)
+	end)
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+	local state = CombatModule.getState(player)
+	if state then state:destroy() end
+end)
+
+RunService.Heartbeat:Connect(function(dt)
+	CombatModule.tickAll(dt)
+end)
+
+local syncAccum = 0
+RunService.Heartbeat:Connect(function(dt)
+	syncAccum += dt
+	if syncAccum >= 0.2 then
+		syncAccum = 0
+		for _, player in ipairs(Players:GetPlayers()) do
+			local state = CombatModule.getState(player)
+			if state then
+				SyncStamina:FireClient(player, state.stamina)
+			end
+		end
+	end
+end)
+
+RequestAttack.OnServerEvent:Connect(function(player, attackType, clientTimestamp)
+	if type(attackType) ~= "string" then return end
+	if attackType ~= "light" and attackType ~= "heavy" and attackType ~= "block_start" and attackType ~= "block_end" then return end
+	if type(clientTimestamp) ~= "number" then return end
+
+	local state = CombatModule.getState(player)
+	if not state then return end
+
+	if attackType == "block_start" then
+		state:setBlock(true)
+		return
+	elseif attackType == "block_end" then
+		state:setBlock(false)
+		return
+	end
+
+	local ok, results, comboIdx = state:processAttack(attackType, clientTimestamp)
+	if not ok then return end
+
+	AttackConfirmed:FireClient(player, attackType, comboIdx)
+
+	for _, res in ipairs(results) do
+		if typeof(res.target) == "Instance" then
+			HitEffect:FireClient(res.target, res.outcome, res.damage)
+		end
+	end
+end)`
+        },
+      ],
+    },
+    {
+      id:2, name:"Admin Dashboard UI", type:"UI",
+      image:"https://res.cloudinary.com/dz6lx92gj/image/upload/v1775858879/Capture_d_%C3%A9cran_2026-04-11_000701_i0wizl.png",
+      desc:"Modular admin panel with live player stats, permission tiers, and in-game command execution.",
+      features:["Draggable, resizable panels","Real-time player data feed","Role-based permission system","Action audit log","Responsive in-game layout"],
+      tags:["ScreenGui","UIStroke","DataStore","BindableEvent","TweenService"],
+      files: [
+        {
+          name: "AdminServer",
+          language: "lua",
+          code:
+`local Players           = game:GetService("Players")
+local RunService        = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local AdminModule = require(script.Parent.AdminModule)
+local Remotes       = ReplicatedStorage:WaitForChild("AdminRemotes")
+local RequestAction = Remotes:WaitForChild("RequestAction")
+local ActionResponse= Remotes:WaitForChild("ActionResponse")
+local SyncPlayerData= Remotes:WaitForChild("SyncPlayerData")
+local AuditBroadcast= Remotes:WaitForChild("AuditBroadcast")
+local OpenPanel     = Remotes:WaitForChild("OpenPanel")
+local CONFIG = {
+	DATASTORE_NAME = "AdminRankStore_v1",
+	DEFAULT_ADMINS = {
+		[7711340523] = 3,
+		[7711340523] = 2,
+	},
+	TIERS = {
+		[0] = { name = "Player",    color = Color3.fromHex("#9B9BB0") },
+		[1] = { name = "Moderator", color = Color3.fromHex("#06B6D4") },
+		[2] = { name = "Admin",     color = Color3.fromHex("#7C3AED") },
+		[3] = { name = "Owner",     color = Color3.fromHex("#F59E0B") },
+	},
+	COMMAND_TIERS = {
+		kick        = 1,
+		ban         = 2,
+		tempban     = 2,
+		unban       = 2,
+		setrank     = 3,
+		tp          = 1,
+		bring       = 1,
+		speed       = 1,
+		jump        = 1,
+		god         = 2,
+		ungod       = 2,
+		announce    = 1,
+		shutdown    = 3,
+		respawn     = 1,
+		freeze      = 1,
+		unfreeze    = 1,
+	},
+	MAX_AUDIT_ENTRIES = 200,
+	SYNC_INTERVAL = 2,
+	TEMPBAN_DURATIONS = {
+		["10 min"]  = 600,
+		["1 hour"]  = 3600,
+		["1 day"]   = 86400,
+		["1 week"]  = 604800,
+	},
+}
+
+Players.PlayerAdded:Connect(function(player)
+	local banned, reason = AdminModule.checkBan(player)
+	if banned then
+		player:Kick(reason)
+		return
+	end
+	AdminModule.getRank(player)
+end)
+
+local syncTimer = 0
+RunService.Heartbeat:Connect(function(dt)
+	syncTimer += dt
+	if syncTimer < CONFIG.SYNC_INTERVAL then return end
+	syncTimer = 0
+	local stats = AdminModule.getAllStats()
+	for _, player in ipairs(Players:GetPlayers()) do
+		if AdminModule.getRank(player) >= 1 then
+			SyncPlayerData:FireClient(player, stats)
+		end
+	end
+end)
+
+RequestAction.OnServerEvent:Connect(function(actor, actionType, payload)
+	if type(actionType) ~= "string" then return end
+	if actionType == "command" then
+		local cmd  = payload.command
+		local args = payload.args or {}
+		if type(cmd) ~= "string" then return end
+		for i, v in ipairs(args) do
+			if type(v) ~= "string" and type(v) ~= "number" then
+				args[i] = tostring(v)
+			end
+		end
+		local ok, msg, broadcast = AdminModule.executeCommand(actor, cmd, args)
+		ActionResponse:FireClient(actor, ok, msg)
+		if broadcast and cmd == "announce" then
+			AuditBroadcast:FireAllClients("announce", actor.Name, msg)
+		end
+		local latestAudit = AdminModule.getAuditLog(1)[1]
+		if latestAudit then
+			for _, p in ipairs(Players:GetPlayers()) do
+				if AdminModule.getRank(p) >= 1 then
+					AuditBroadcast:FireClient(p, "audit", latestAudit)
+				end
+			end
+		end
+	elseif actionType == "get_audit" then
+		if AdminModule.getRank(actor) >= 1 then
+			ActionResponse:FireClient(actor, true, AdminModule.getAuditLog(50))
+		end
+	elseif actionType == "open_panel" then
+		if AdminModule.getRank(actor) >= 1 then
+			OpenPanel:FireClient(actor, AdminModule.getRank(actor))
+		end
+	end
+end)`
+        },
+                {
+          name: "AdminModule",
+          language: "lua",
+          code:
+`local CONFIG = {
+	DATASTORE_NAME = "AdminRankStore_v1",
+	DEFAULT_ADMINS = {
+	},
+	TIERS = {
+		[0] = { name = "Player",    color = Color3.fromHex("#9B9BB0") },
+		[1] = { name = "Moderator", color = Color3.fromHex("#06B6D4") },
+		[2] = { name = "Admin",     color = Color3.fromHex("#7C3AED") },
+		[3] = { name = "Owner",     color = Color3.fromHex("#F59E0B") },
+	},
+	COMMAND_TIERS = {
+		kick        = 1,
+		ban         = 2,
+		tempban     = 2,
+		unban       = 2,
+		setrank     = 3,
+		tp          = 1,
+		bring       = 1,
+		speed       = 1,
+		jump        = 1,
+		god         = 2,
+		ungod       = 2,
+		announce    = 1,
+		shutdown    = 3,
+		respawn     = 1,
+		freeze      = 1,
+		unfreeze    = 1,
+	},
+	MAX_AUDIT_ENTRIES = 200,
+	SYNC_INTERVAL = 2,
+	TEMPBAN_DURATIONS = {
+		["10 min"]  = 600,
+		["1 hour"]  = 3600,
+		["1 day"]   = 86400,
+		["1 week"]  = 604800,
+	},
+}
+
+local AdminModule = {}
+AdminModule.__index = AdminModule
+
+local DataStoreService = game:GetService("DataStoreService")
+local Players          = game:GetService("Players")
+local HttpService      = game:GetService("HttpService")
+
+local rankStore  = DataStoreService:GetDataStore(CONFIG.DATASTORE_NAME)
+local banStore   = DataStoreService:GetDataStore("AdminBanStore_v1")
+local auditLog   = {}
+local rankCache  = {}
+
+local function timestamp()
+	return os.date("%H:%M:%S")
+end
+
+local function uid(player)
+	return tostring(player.UserId)
+end
+
+function AdminModule.getRank(player)
+	local id = player.UserId
+	if rankCache[id] ~= nil then return rankCache[id] end
+
+	if CONFIG.DEFAULT_ADMINS[id] then
+		rankCache[id] = CONFIG.DEFAULT_ADMINS[id]
+		return rankCache[id]
+	end
+
+	local ok, val = pcall(function()
+		return rankStore:GetAsync("rank_" .. id)
+	end)
+	rankCache[id] = (ok and val) or 3
+	return rankCache[id]
+end
+
+function AdminModule.setRank(targetUserId, tier, actorPlayer)
+	tier = math.clamp(tier, 0, 3)
+	rankCache[targetUserId] = tier
+	pcall(function()
+		rankStore:SetAsync("rank_" .. targetUserId, tier)
+	end)
+	AdminModule.addAudit(actorPlayer, "setrank", tostring(targetUserId), "tier=" .. tier)
+end
+
+function AdminModule.hasPermission(player, command)
+	local required = CONFIG.COMMAND_TIERS[command] or 99
+	return AdminModule.getRank(player) >= required
+end
+
+function AdminModule.ban(targetUserId, reason, duration, actorPlayer)
+	local entry = {
+		reason   = reason or "No reason given",
+		bannedAt = os.time(),
+		duration = duration,
+		bannedBy = actorPlayer and actorPlayer.UserId or 0,
+	}
+	pcall(function()
+		banStore:SetAsync("ban_" .. targetUserId, entry)
+	end)
+	AdminModule.addAudit(actorPlayer, duration and "tempban" or "ban",
+		tostring(targetUserId), reason or "")
+end
+
+function AdminModule.unban(targetUserId, actorPlayer)
+	pcall(function()
+		banStore:RemoveAsync("ban_" .. targetUserId)
+	end)
+	AdminModule.addAudit(actorPlayer, "unban", tostring(targetUserId), "")
+end
+
+function AdminModule.checkBan(player)
+	local ok, entry = pcall(function()
+		return banStore:GetAsync("ban_" .. player.UserId)
+	end)
+	if not ok or not entry then return false end
+
+	if entry.duration then
+		if os.time() >= entry.bannedAt + entry.duration then
+			AdminModule.unban(player.UserId, nil)
+			return false
+		end
+		local remaining = (entry.bannedAt + entry.duration) - os.time()
+		local h = math.floor(remaining / 3600)
+		local m = math.floor((remaining % 3600) / 60)
+		return true, string.format("Temp-banned: %dh %dm remaining. Reason: %s", h, m, entry.reason)
+	end
+
+	return true, "Permanently banned. Reason: " .. entry.reason
+end
+
+function AdminModule.addAudit(actor, action, target, detail)
+	local entry = {
+		id     = HttpService:GenerateGUID(false):sub(1, 8),
+		time   = timestamp(),
+		actor  = actor and actor.Name or "System",
+		action = action,
+		target = target or "",
+		detail = detail or "",
+	}
+	table.insert(auditLog, 1, entry)
+	if #auditLog > CONFIG.MAX_AUDIT_ENTRIES then
+		table.remove(auditLog)
+	end
+	return entry
+end
+
+function AdminModule.getAuditLog(count)
+	local out = {}
+	for i = 1, math.min(count or 50, #auditLog) do
+		out[i] = auditLog[i]
+	end
+	return out
+end
+
+function AdminModule.getPlayerStats(player)
+	local char = player.Character
+	local hum  = char and char:FindFirstChildOfClass("Humanoid")
+	local root = char and char:FindFirstChild("HumanoidRootPart")
+	return {
+		name       = player.Name,
+		displayName= player.DisplayName,
+		userId     = player.UserId,
+		rank       = AdminModule.getRank(player),
+		rankName   = CONFIG.TIERS[AdminModule.getRank(player)].name,
+		health     = hum and math.floor(hum.Health) or 0,
+		maxHealth  = hum and math.floor(hum.MaxHealth) or 100,
+		ping = (player.GetNetworkPing and math.floor(player:GetNetworkPing() * 1000)) or 0,
+		position   = root and {
+			x = math.floor(root.Position.X),
+			y = math.floor(root.Position.Y),
+			z = math.floor(root.Position.Z),
+		} or { x=0, y=0, z=0 },
+		accountAge = player.AccountAge,
+		joinTime   = math.floor(player.Kick and 0 or workspace.DistributedGameTime),
+	}
+end
+
+function AdminModule.getAllStats()
+	local out = {}
+	for _, p in ipairs(Players:GetPlayers()) do
+		table.insert(out, AdminModule.getPlayerStats(p))
+	end
+	return out
+end
+
+function AdminModule.executeCommand(actor, command, args)
+	if not AdminModule.hasPermission(actor, command) then
+		return false, "Insufficient permissions for: " .. command
+	end
+
+	local function findPlayer(name)
+		for _, p in ipairs(Players:GetPlayers()) do
+			if p.Name:lower() == name:lower()
+				or p.DisplayName:lower() == name:lower() then
+				return p
+			end
+		end
+		return nil
+	end
+
+	if command == "kick" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found: " .. (args[1] or "") end
+		local reason = table.concat(args, " ", 2) or "Kicked by admin"
+		AdminModule.addAudit(actor, "kick", target.Name, reason)
+		target:Kick(reason)
+		return true, "Kicked " .. target.Name
+
+	elseif command == "ban" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found" end
+		local reason = table.concat(args, " ", 2) or "Banned"
+		AdminModule.ban(target.UserId, reason, nil, actor)
+		target:Kick("You have been permanently banned. Reason: " .. reason)
+		return true, "Banned " .. target.Name
+
+	elseif command == "tempban" then
+		local target = findPlayer(args[1])
+		local dur    = CONFIG.TEMPBAN_DURATIONS[args[2]]
+		if not target then return false, "Player not found" end
+		if not dur    then return false, "Duration must be: " .. table.concat(
+			(function() local k={} for d in pairs(CONFIG.TEMPBAN_DURATIONS) do k[#k+1]=d end return k end)(), ", ") end
+		local reason = table.concat(args, " ", 3) or "Temp-banned"
+		AdminModule.ban(target.UserId, reason, dur, actor)
+		target:Kick("Temp-banned for " .. args[2] .. ". Reason: " .. reason)
+		return true, "Temp-banned " .. target.Name .. " for " .. args[2]
+
+	elseif command == "unban" then
+		local targetId = tonumber(args[1])
+		if not targetId then return false, "Provide a UserId number" end
+		AdminModule.unban(targetId, actor)
+		return true, "Unbanned UserId " .. targetId
+
+	elseif command == "setrank" then
+		local target = findPlayer(args[1])
+		local tier   = tonumber(args[2])
+		if not target then return false, "Player not found" end
+		if not tier or not CONFIG.TIERS[tier] then return false, "Tier must be 0-3" end
+		if tier >= AdminModule.getRank(actor) then
+			return false, "Cannot set rank >= your own"
+		end
+		AdminModule.setRank(target.UserId, tier, actor)
+		return true, "Set " .. target.Name .. " to " .. CONFIG.TIERS[tier].name
+
+	elseif command == "tp" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found" end
+		local actorChar  = actor.Character
+		local targetChar = target.Character
+		if not actorChar or not targetChar then return false, "Character not loaded" end
+		local root = actorChar:FindFirstChild("HumanoidRootPart")
+		local dest = targetChar:FindFirstChild("HumanoidRootPart")
+		if root and dest then
+			root.CFrame = dest.CFrame * CFrame.new(3, 0, 0)
+			AdminModule.addAudit(actor, "tp", target.Name, "")
+			return true, "Teleported to " .. target.Name
+		end
+		return false, "Could not teleport"
+
+	elseif command == "bring" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found" end
+		local actorChar  = actor.Character
+		local targetChar = target.Character
+		if not actorChar or not targetChar then return false, "Character not loaded" end
+		local actorRoot  = actorChar:FindFirstChild("HumanoidRootPart")
+		local targetRoot = targetChar:FindFirstChild("HumanoidRootPart")
+		if actorRoot and targetRoot then
+			targetRoot.CFrame = actorRoot.CFrame * CFrame.new(3, 0, 0)
+			AdminModule.addAudit(actor, "bring", target.Name, "")
+			return true, "Brought " .. target.Name
+		end
+		return false, "Could not bring"
+
+	elseif command == "speed" then
+		local target = findPlayer(args[1])
+		local val    = tonumber(args[2])
+		if not target then return false, "Player not found" end
+		if not val or val < 0 or val > 500 then return false, "Speed must be 0-500" end
+		local char = target.Character
+		local hum  = char and char:FindFirstChildOfClass("Humanoid")
+		if hum then
+			hum.WalkSpeed = val
+			AdminModule.addAudit(actor, "speed", target.Name, val)
+			return true, "Set " .. target.Name .. " speed to " .. val
+		end
+		return false, "Character not found"
+
+	elseif command == "jump" then
+		local target = findPlayer(args[1])
+		local val    = tonumber(args[2])
+		if not target then return false, "Player not found" end
+		if not val or val < 0 or val > 500 then return false, "JumpPower must be 0-500" end
+		local char = target.Character
+		local hum  = char and char:FindFirstChildOfClass("Humanoid")
+		if hum then
+			hum.JumpPower = val
+			AdminModule.addAudit(actor, "jump", target.Name, val)
+			return true, "Set " .. target.Name .. " jump to " .. val
+		end
+		return false, "Character not found"
+
+	elseif command == "god" or command == "ungod" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found" end
+		local char = target.Character
+		local hum  = char and char:FindFirstChildOfClass("Humanoid")
+		if hum then
+			hum.MaxHealth = command == "god" and math.huge or 100
+			hum.Health    = hum.MaxHealth
+			AdminModule.addAudit(actor, command, target.Name, "")
+			return true, (command == "god" and "Godded " or "Ungodded ") .. target.Name
+		end
+		return false, "Character not found"
+
+	elseif command == "respawn" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found" end
+		target:LoadCharacter()
+		AdminModule.addAudit(actor, "respawn", target.Name, "")
+		return true, "Respawned " .. target.Name
+
+	elseif command == "freeze" or command == "unfreeze" then
+		local target = findPlayer(args[1])
+		if not target then return false, "Player not found" end
+		local char = target.Character
+		if not char then return false, "No character" end
+		for _, part in ipairs(char:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part.Anchored = (command == "freeze")
+			end
+		end
+		AdminModule.addAudit(actor, command, target.Name, "")
+		return true, (command == "freeze" and "Froze " or "Unfroze ") .. target.Name
+
+	elseif command == "announce" then
+		local msg = table.concat(args, " ")
+		if msg == "" then return false, "Provide a message" end
+		AdminModule.addAudit(actor, "announce", "all", msg)
+		return true, msg, true
+
+	elseif command == "shutdown" then
+		AdminModule.addAudit(actor, "shutdown", "server", "")
+		task.delay(3, function()
+			for _, p in ipairs(Players:GetPlayers()) do
+				p:Kick("Server shutting down.")
+			end
+		end)
+		return true, "Server shutting down in 3s..."
+	end
+
+	return false, "Unknown command: " .. command
+end
+
+return AdminModule`
+        },
+                {
+          name: "AdminClient",
+          language: "lua",
+          code:
+`local Players           = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService  = game:GetService("UserInputService")
+local TweenService      = game:GetService("TweenService")
+local RunService        = game:GetService("RunService")
+
+local player    = Players.LocalPlayer
+local mouse     = player:GetMouse()
+
+local Remotes       = ReplicatedStorage:WaitForChild("AdminRemotes")
+local RequestAction = Remotes:WaitForChild("RequestAction")
+local ActionResponse= Remotes:WaitForChild("ActionResponse")
+local SyncPlayerData= Remotes:WaitForChild("SyncPlayerData")
+local AuditBroadcast= Remotes:WaitForChild("AuditBroadcast")
+local OpenPanel     = Remotes:WaitForChild("OpenPanel")
+
+local PALETTE = {
+	bg         = Color3.fromHex("#0A0A14"),
+	surface    = Color3.fromHex("#11111E"),
+	surface2   = Color3.fromHex("#18182A"),
+	accent     = Color3.fromHex("#7C3AED"),
+	accent2    = Color3.fromHex("#06B6D4"),
+	text       = Color3.fromHex("#F0F0F8"),
+	textMuted  = Color3.fromHex("#6060A0"),
+	success    = Color3.fromHex("#10B981"),
+	danger     = Color3.fromHex("#EF4444"),
+	warn       = Color3.fromHex("#F59E0B"),
+	border     = Color3.fromHex("#2A2A44"),
+	tierColors = {
+		[0] = Color3.fromHex("#9B9BB0"),
+		[1] = Color3.fromHex("#06B6D4"),
+		[2] = Color3.fromHex("#7C3AED"),
+		[3] = Color3.fromHex("#F59E0B"),
+	},
+}
+
+local TIER_NAMES = { [0]="Player",[1]="Moderator",[2]="Admin",[3]="Owner" }
+
+local adminRank    = 0
+local panelOpen    = false
+local playerData   = {}
+local auditEntries = {}
+local activeTab    = "players"
+local selectedPlayer = nil
+
+local GUI, MainFrame, TabContents = nil, nil, {}
+
+local function uiCorner(parent, rad)
+	local c = Instance.new("UICorner", parent)
+	c.CornerRadius = UDim.new(0, rad or 8)
+end
+local function uiStroke(parent, color, thickness)
+	local s = Instance.new("UIStroke", parent)
+	s.Color = color or PALETTE.border
+	s.Thickness = thickness or 1
+	s.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+end
+local function uiPadding(parent, t, r, b, l)
+	local p = Instance.new("UIPadding", parent)
+	p.PaddingTop    = UDim.new(0, t or 8)
+	p.PaddingRight  = UDim.new(0, r or 8)
+	p.PaddingBottom = UDim.new(0, b or 8)
+	p.PaddingLeft   = UDim.new(0, l or 8)
+end
+local function label(parent, text, size, color, font)
+	local l = Instance.new("TextLabel", parent)
+	l.Text = text
+	l.TextSize = size or 14
+	l.TextColor3 = color or PALETTE.text
+	l.Font = font or Enum.Font.GothamMedium
+	l.BackgroundTransparency = 1
+	l.TextXAlignment = Enum.TextXAlignment.Left
+	l.Size = UDim2.new(1, 0, 0, size and size + 4 or 18)
+	l.AutomaticSize = Enum.AutomaticSize.Y
+	return l
+end
+local function tween(obj, props, t, style, dir)
+	TweenService:Create(obj,
+		TweenInfo.new(t or 0.18, style or Enum.EasingStyle.Quart, dir or Enum.EasingDirection.Out),
+		props
+	):Play()
+end
+
+local function makeDraggable(frame, handle)
+	local dragging, dragStart, startPos = false, nil, nil
+	handle = handle or frame
+
+	handle.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging  = true
+			dragStart = input.Position
+			startPos  = frame.Position
+		end
+	end)
+	handle.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = false
+		end
+	end)
+	UserInputService.InputChanged:Connect(function(input)
+		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - dragStart
+			frame.Position = UDim2.new(
+				startPos.X.Scale,
+				startPos.X.Offset + delta.X,
+				startPos.Y.Scale,
+				startPos.Y.Offset + delta.Y
+			)
+		end
+	end)
+end
+
+local function makeResizable(frame, minW, minH)
+	minW = minW or 400; minH = minH or 300
+	local handle = Instance.new("Frame", frame)
+	handle.Size = UDim2.new(0, 14, 0, 14)
+	handle.Position = UDim2.new(1, -14, 1, -14)
+	handle.BackgroundColor3 = PALETTE.accent
+	handle.BackgroundTransparency = 0.6
+	handle.BorderSizePixel = 0
+	handle.ZIndex = frame.ZIndex + 2
+	uiCorner(handle, 3)
+
+	local resizing, resizeStart, startSize = false, nil, nil
+	handle.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			resizing    = true
+			resizeStart = input.Position
+			startSize   = frame.AbsoluteSize
+		end
+	end)
+	handle.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			resizing = false
+		end
+	end)
+	UserInputService.InputChanged:Connect(function(input)
+		if resizing and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - resizeStart
+			frame.Size = UDim2.new(0,
+				math.max(minW, startSize.X + delta.X), 0,
+				math.max(minH, startSize.Y + delta.Y))
+		end
+	end)
+end
+
+local function buildGUI(rank)
+	if GUI then GUI:Destroy() end
+
+	GUI = Instance.new("ScreenGui", player.PlayerGui)
+	GUI.Name = "AdminDashboard"
+	GUI.ResetOnSpawn = false
+	GUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	GUI.IgnoreGuiInset = true
+
+	MainFrame = Instance.new("Frame", GUI)
+	MainFrame.Size = UDim2.new(0, 820, 0, 540)
+	MainFrame.Position = UDim2.new(0.5, -410, 0.5, -270)
+	MainFrame.BackgroundColor3 = PALETTE.bg
+	MainFrame.BorderSizePixel = 0
+	MainFrame.ClipsDescendants = true
+	uiCorner(MainFrame, 14)
+	uiStroke(MainFrame, PALETTE.border, 1.5)
+	makeResizable(MainFrame, 600, 400)
+
+	local titleBar = Instance.new("Frame", MainFrame)
+	titleBar.Size = UDim2.new(1, 0, 0, 48)
+	titleBar.BackgroundColor3 = PALETTE.surface
+	titleBar.BorderSizePixel = 0
+	uiStroke(titleBar, PALETTE.border, 1)
+	makeDraggable(MainFrame, titleBar)
+
+	local titleLabel = Instance.new("TextLabel", titleBar)
+	titleLabel.Text = "⬡  Admin Dashboard"
+	titleLabel.TextSize = 15
+	titleLabel.Font = Enum.Font.GothamBold
+	titleLabel.TextColor3 = PALETTE.text
+	titleLabel.BackgroundTransparency = 1
+	titleLabel.Position = UDim2.new(0, 16, 0, 0)
+	titleLabel.Size = UDim2.new(1, -120, 1, 0)
+	titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	local rankBadge = Instance.new("TextLabel", titleBar)
+	rankBadge.Text = TIER_NAMES[rank] or "Player"
+	rankBadge.TextSize = 11
+	rankBadge.Font = Enum.Font.GothamBold
+	rankBadge.TextColor3 = PALETTE.tierColors[rank] or PALETTE.textMuted
+	rankBadge.BackgroundColor3 = Color3.fromHex("#1E1E30")
+	rankBadge.Size = UDim2.new(0, 90, 0, 24)
+	rankBadge.Position = UDim2.new(1, -168, 0.5, -12)
+	uiCorner(rankBadge, 99)
+	uiStroke(rankBadge, PALETTE.tierColors[rank] or PALETTE.border, 1)
+
+	local closeBtn = Instance.new("TextButton", titleBar)
+	closeBtn.Text = "✕"
+	closeBtn.TextSize = 14
+	closeBtn.Font = Enum.Font.GothamBold
+	closeBtn.TextColor3 = PALETTE.textMuted
+	closeBtn.BackgroundColor3 = Color3.fromHex("#2A1A2A")
+	closeBtn.Size = UDim2.new(0, 32, 0, 32)
+	closeBtn.Position = UDim2.new(1, -44, 0.5, -16)
+	closeBtn.BorderSizePixel = 0
+	uiCorner(closeBtn, 8)
+	closeBtn.MouseButton1Click:Connect(function() togglePanel(false) end)
+	closeBtn.MouseEnter:Connect(function() tween(closeBtn, {BackgroundColor3=PALETTE.danger}, 0.12) end)
+	closeBtn.MouseLeave:Connect(function() tween(closeBtn, {BackgroundColor3=Color3.fromHex("#2A1A2A")}, 0.12) end)
+
+	local sidebar = Instance.new("Frame", MainFrame)
+	sidebar.Size = UDim2.new(0, 160, 1, -48)
+	sidebar.Position = UDim2.new(0, 0, 0, 48)
+	sidebar.BackgroundColor3 = PALETTE.surface
+	sidebar.BorderSizePixel = 0
+
+	local sideList = Instance.new("UIListLayout", sidebar)
+	sideList.Padding = UDim.new(0, 4)
+	sideList.SortOrder = Enum.SortOrder.LayoutOrder
+	uiPadding(sidebar, 8, 6, 8, 6)
+
+	local tabs = {
+		{ id="players", icon="👥", label="Players" },
+		{ id="audit",   icon="📋", label="Audit Log" },
+		{ id="command", icon="⌨",  label="Commands" },
+		{ id="server",  icon="🖥",  label="Server Info" },
+	}
+
+	local tabBtns = {}
+	for _, tab in ipairs(tabs) do
+		local btn = Instance.new("TextButton", sidebar)
+		btn.Text = tab.icon .. "  " .. tab.label
+		btn.TextSize = 13
+		btn.Font = Enum.Font.GothamMedium
+		btn.TextColor3 = PALETTE.textMuted
+		btn.TextXAlignment = Enum.TextXAlignment.Left
+		btn.BackgroundColor3 = Color3.fromHex("#11111E")
+		btn.BackgroundTransparency = 1
+		btn.Size = UDim2.new(1, 0, 0, 38)
+		btn.BorderSizePixel = 0
+		uiCorner(btn, 8)
+		uiPadding(btn, 0, 0, 0, 10)
+		btn.LayoutOrder = _
+
+		tabBtns[tab.id] = btn
+		btn.MouseButton1Click:Connect(function() switchTab(tab.id) end)
+		btn.MouseEnter:Connect(function()
+			if activeTab ~= tab.id then
+				tween(btn, {BackgroundTransparency = 0.7}, 0.1)
+			end
+		end)
+		btn.MouseLeave:Connect(function()
+			if activeTab ~= tab.id then
+				tween(btn, {BackgroundTransparency = 1}, 0.1)
+			end
+		end)
+	end
+
+	local contentArea = Instance.new("Frame", MainFrame)
+	contentArea.Size = UDim2.new(1, -160, 1, -48)
+	contentArea.Position = UDim2.new(0, 160, 0, 48)
+	contentArea.BackgroundTransparency = 1
+	contentArea.ClipsDescendants = true
+
+	local divLine = Instance.new("Frame", MainFrame)
+	divLine.Size = UDim2.new(0, 1, 1, -48)
+	divLine.Position = UDim2.new(0, 160, 0, 48)
+	divLine.BackgroundColor3 = PALETTE.border
+	divLine.BorderSizePixel = 0
+
+	local playersTab = Instance.new("ScrollingFrame", contentArea)
+	playersTab.Name = "PlayersTab"
+	playersTab.Size = UDim2.new(1, 0, 1, 0)
+	playersTab.BackgroundTransparency = 1
+	playersTab.ScrollBarThickness = 4
+	playersTab.ScrollBarImageColor3 = PALETTE.accent
+	playersTab.CanvasSize = UDim2.new(0, 0, 0, 0)
+	playersTab.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	playersTab.Visible = true
+	uiPadding(playersTab, 14, 14, 14, 14)
+	local playersList = Instance.new("UIListLayout", playersTab)
+	playersList.Padding = UDim.new(0, 8)
+	playersList.SortOrder = Enum.SortOrder.LayoutOrder
+
+	TabContents["players"] = playersTab
+
+	local auditTab = Instance.new("ScrollingFrame", contentArea)
+	auditTab.Name = "AuditTab"
+	auditTab.Size = UDim2.new(1, 0, 1, 0)
+	auditTab.BackgroundTransparency = 1
+	auditTab.ScrollBarThickness = 4
+	auditTab.ScrollBarImageColor3 = PALETTE.accent
+	auditTab.CanvasSize = UDim2.new(0, 0, 0, 0)
+	auditTab.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	auditTab.Visible = false
+	uiPadding(auditTab, 14, 14, 14, 14)
+	local auditList = Instance.new("UIListLayout", auditTab)
+	auditList.Padding = UDim.new(0, 6)
+	auditList.SortOrder = Enum.SortOrder.LayoutOrder
+
+	TabContents["audit"] = auditTab
+
+	local cmdTab = Instance.new("Frame", contentArea)
+	cmdTab.Name = "CmdTab"
+	cmdTab.Size = UDim2.new(1, 0, 1, 0)
+	cmdTab.BackgroundTransparency = 1
+	cmdTab.Visible = false
+	uiPadding(cmdTab, 14, 14, 14, 14)
+
+	local cmdBg = Instance.new("Frame", cmdTab)
+	cmdBg.Size = UDim2.new(1, 0, 0, 44)
+	cmdBg.BackgroundColor3 = PALETTE.surface2
+	cmdBg.BorderSizePixel = 0
+	uiCorner(cmdBg, 10)
+	uiStroke(cmdBg, PALETTE.border)
+
+	local cmdInput = Instance.new("TextBox", cmdBg)
+	cmdInput.Size = UDim2.new(1, -100, 1, 0)
+	cmdInput.BackgroundTransparency = 1
+	cmdInput.Text = ""
+	cmdInput.PlaceholderText = "  e.g. kick PlayerName reason..."
+	cmdInput.TextSize = 13
+	cmdInput.Font = Enum.Font.Code
+	cmdInput.TextColor3 = PALETTE.text
+	cmdInput.PlaceholderColor3 = PALETTE.textMuted
+	cmdInput.TextXAlignment = Enum.TextXAlignment.Left
+	cmdInput.ClearTextOnFocus = false
+	uiPadding(cmdInput, 0, 0, 0, 12)
+
+	local runBtn = Instance.new("TextButton", cmdBg)
+	runBtn.Text = "Run ▶"
+	runBtn.TextSize = 13
+	runBtn.Font = Enum.Font.GothamBold
+	runBtn.TextColor3 = Color3.new(1,1,1)
+	runBtn.BackgroundColor3 = PALETTE.accent
+	runBtn.Size = UDim2.new(0, 80, 1, -8)
+	runBtn.Position = UDim2.new(1, -88, 0, 4)
+	runBtn.BorderSizePixel = 0
+	uiCorner(runBtn, 8)
+
+	local respScroll = Instance.new("ScrollingFrame", cmdTab)
+	respScroll.Size = UDim2.new(1, 0, 1, -60)
+	respScroll.Position = UDim2.new(0, 0, 0, 54)
+	respScroll.BackgroundTransparency = 1
+	respScroll.ScrollBarThickness = 4
+	respScroll.ScrollBarImageColor3 = PALETTE.accent
+	respScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+	respScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	local respList = Instance.new("UIListLayout", respScroll)
+	respList.Padding = UDim.new(0, 4)
+
+	local function addCmdResponse(ok, msg)
+		local row = Instance.new("Frame", respScroll)
+		row.Size = UDim2.new(1, 0, 0, 0)
+		row.AutomaticSize = Enum.AutomaticSize.Y
+		row.BackgroundColor3 = ok and Color3.fromHex("#0D1F18") or Color3.fromHex("#200D0D")
+		row.BorderSizePixel = 0
+		uiCorner(row, 6)
+		uiPadding(row, 6, 10, 6, 10)
+		local lbl = label(row,
+			(ok and "✓  " or "✗  ") .. tostring(msg),
+			12, ok and PALETTE.success or PALETTE.danger)
+		lbl.TextWrapped = true
+		lbl.AutomaticSize = Enum.AutomaticSize.Y
+		lbl.Size = UDim2.new(1, 0, 0, 0)
+		task.defer(function()
+			respScroll.CanvasPosition = Vector2.new(0, respList.AbsoluteContentSize.Y)
+		end)
+	end
+
+	local function runCommand()
+		local raw = cmdInput.Text:match("^%s*(.-)%s*$")
+		if raw == "" then return end
+		local parts = {}
+		for word in raw:gmatch("%S+") do parts[#parts+1] = word end
+		local cmd  = table.remove(parts, 1):lower()
+		RequestAction:FireServer("command", { command=cmd, args=parts })
+		cmdInput.Text = ""
+	end
+	runBtn.MouseButton1Click:Connect(runCommand)
+	cmdInput.FocusLost:Connect(function(enter) if enter then runCommand() end end)
+
+	TabContents["command"] = cmdTab
+
+	local srvTab = Instance.new("Frame", contentArea)
+	srvTab.Name = "SrvTab"
+	srvTab.Size = UDim2.new(1, 0, 1, 0)
+	srvTab.BackgroundTransparency = 1
+	srvTab.Visible = false
+	uiPadding(srvTab, 14, 14, 14, 14)
+	local srvList = Instance.new("UIListLayout", srvTab)
+	srvList.Padding = UDim.new(0, 8)
+
+	local function srvRow(k, v)
+		local row = Instance.new("Frame", srvTab)
+		row.Size = UDim2.new(1, 0, 0, 38)
+		row.BackgroundColor3 = PALETTE.surface2
+		row.BorderSizePixel = 0
+		uiCorner(row, 8)
+		local kl = label(row, k, 13, PALETTE.textMuted)
+		kl.Position = UDim2.new(0, 12, 0, 0); kl.Size = UDim2.new(0.5, 0, 1, 0)
+		kl.TextYAlignment = Enum.TextYAlignment.Center
+		local vl = label(row, tostring(v), 13, PALETTE.text, Enum.Font.GothamBold)
+		vl.Position = UDim2.new(0.5, 0, 0, 0); vl.Size = UDim2.new(0.5, -12, 1, 0)
+		vl.TextYAlignment = Enum.TextYAlignment.Center
+		vl.TextXAlignment = Enum.TextXAlignment.Right
+	end
+	srvRow("Job ID",          game.JobId ~= "" and game.JobId:sub(1,16).."…" or "Studio")
+	srvRow("Place ID",        game.PlaceId)
+	srvRow("Place Version",   game.PlaceVersion)
+	srvRow("Server Time",     os.date("%H:%M:%S"))
+	srvRow("Max Players",     Players.MaxPlayers)
+	srvRow("Current Players", #Players:GetPlayers())
+
+	TabContents["server"] = srvTab
+
+	local announceFrame = Instance.new("Frame", GUI)
+	announceFrame.Name = "AnnounceFrame"
+	announceFrame.Size = UDim2.new(0, 500, 0, 60)
+	announceFrame.Position = UDim2.new(0.5, -250, 0, -70)
+	announceFrame.BackgroundColor3 = Color3.fromHex("#1A0D2E")
+	announceFrame.BorderSizePixel = 0
+	uiCorner(announceFrame, 12)
+	uiStroke(announceFrame, PALETTE.accent, 1.5)
+	uiPadding(announceFrame, 0, 16, 0, 16)
+	local annLabel = Instance.new("TextLabel", announceFrame)
+	annLabel.Size = UDim2.new(1, 0, 1, 0)
+	annLabel.BackgroundTransparency = 1
+	annLabel.TextSize = 14
+	annLabel.Font = Enum.Font.GothamBold
+	annLabel.TextColor3 = PALETTE.text
+	annLabel.TextWrapped = true
+	annLabel.Name = "AnnLabel"
+
+	GUI:SetAttribute("AnnounceFrame", announceFrame.Name)
+
+	switchTab("players", tabBtns)
+	RequestAction:FireServer("get_audit", {})
+
+	GUI:SetAttribute("Built", true)
+
+	return tabBtns, cmdTab, addCmdResponse, playersTab, auditTab, announceFrame
+end
+
+local tabBtnsRef, addCmdResponseRef
+
+function switchTab(id, btns)
+	btns = btns or tabBtnsRef
+	activeTab = id
+	for tabId, content in pairs(TabContents) do
+		content.Visible = (tabId == id)
+	end
+	if btns then
+		for tabId, btn in pairs(btns) do
+			if tabId == id then
+				btn.TextColor3 = PALETTE.text
+				btn.BackgroundTransparency = 0.7
+			else
+				btn.TextColor3 = PALETTE.textMuted
+				btn.BackgroundTransparency = 1
+			end
+		end
+	end
+end
+
+function togglePanel(forceState)
+	panelOpen = forceState ~= nil and forceState or not panelOpen
+	if not GUI then return end
+	if panelOpen then
+		MainFrame.Visible = true
+		MainFrame.BackgroundTransparency = 1
+		tween(MainFrame, {BackgroundTransparency = 0}, 0.22)
+		MainFrame.Position = UDim2.new(0.5, -410, 0.45, -270)
+		tween(MainFrame, {Position = UDim2.new(0.5, -410, 0.5, -270)}, 0.22)
+	else
+		tween(MainFrame, {BackgroundTransparency = 1, Position = UDim2.new(0.5, -410, 0.55, -270)}, 0.18)
+		task.delay(0.2, function() if not panelOpen then MainFrame.Visible = false end end)
+	end
+end
+
+local function renderPlayers(tab)
+	for _, child in ipairs(tab:GetChildren()) do
+		if child:IsA("Frame") then child:Destroy() end
+	end
+
+	for _, pData in ipairs(playerData) do
+		local card = Instance.new("Frame", tab)
+		card.Size = UDim2.new(1, 0, 0, 0)
+		card.AutomaticSize = Enum.AutomaticSize.Y
+		card.BackgroundColor3 = PALETTE.surface
+		card.BorderSizePixel = 0
+		uiCorner(card, 10)
+		uiStroke(card, PALETTE.border)
+		uiPadding(card, 10, 12, 10, 12)
+
+		local innerList = Instance.new("UIListLayout", card)
+		innerList.Padding = UDim.new(0, 4)
+
+		local headerRow = Instance.new("Frame", card)
+		headerRow.Size = UDim2.new(1, 0, 0, 22)
+		headerRow.BackgroundTransparency = 1
+
+		local nameL = Instance.new("TextLabel", headerRow)
+		nameL.Text = pData.name
+		nameL.TextSize = 14
+		nameL.Font = Enum.Font.GothamBold
+		nameL.TextColor3 = PALETTE.text
+		nameL.BackgroundTransparency = 1
+		nameL.Size = UDim2.new(0.5, 0, 1, 0)
+		nameL.TextXAlignment = Enum.TextXAlignment.Left
+
+		local rankL = Instance.new("TextLabel", headerRow)
+		rankL.Text = pData.rankName
+		rankL.TextSize = 11
+		rankL.Font = Enum.Font.GothamBold
+		rankL.TextColor3 = PALETTE.tierColors[pData.rank] or PALETTE.textMuted
+		rankL.BackgroundColor3 = Color3.fromHex("#1A1A2E")
+		rankL.Size = UDim2.new(0, 84, 1, 0)
+		rankL.Position = UDim2.new(1, -84, 0, 0)
+		uiCorner(rankL, 99)
+
+		local statsRow = Instance.new("Frame", card)
+		statsRow.Size = UDim2.new(1, 0, 0, 18)
+		statsRow.BackgroundTransparency = 1
+
+		local function statChip(text, color, xOff)
+			local l = Instance.new("TextLabel", statsRow)
+			l.Text = text
+			l.TextSize = 11
+			l.Font = Enum.Font.GothamMedium
+			l.TextColor3 = color or PALETTE.textMuted
+			l.BackgroundTransparency = 1
+			l.Size = UDim2.new(0.25, 0, 1, 0)
+			l.Position = UDim2.new(xOff, 0, 0, 0)
+			l.TextXAlignment = Enum.TextXAlignment.Left
+		end
+
+		local hpColor = pData.health > 60 and PALETTE.success
+			or pData.health > 25 and PALETTE.warn or PALETTE.danger
+		statChip("❤ " .. pData.health .. "/" .. pData.maxHealth, hpColor, 0)
+		statChip("📡 " .. pData.ping .. "ms",
+			pData.ping < 100 and PALETTE.success or pData.ping < 250 and PALETTE.warn or PALETTE.danger, 0.27)
+		statChip("📍 " .. pData.position.x .. " " .. pData.position.y .. " " .. pData.position.z,
+			PALETTE.textMuted, 0.54)
+
+		local hpTrack = Instance.new("Frame", card)
+		hpTrack.Size = UDim2.new(1, 0, 0, 4)
+		hpTrack.BackgroundColor3 = PALETTE.surface2
+		hpTrack.BorderSizePixel = 0
+		uiCorner(hpTrack, 99)
+		local hpFill = Instance.new("Frame", hpTrack)
+		hpFill.Size = UDim2.new(pData.health / pData.maxHealth, 0, 1, 0)
+		hpFill.BackgroundColor3 = hpColor
+		hpFill.BorderSizePixel = 0
+		uiCorner(hpFill, 99)
+
+		local actRow = Instance.new("Frame", card)
+		actRow.Size = UDim2.new(1, 0, 0, 26)
+		actRow.BackgroundTransparency = 1
+		local actLayout = Instance.new("UIListLayout", actRow)
+		actLayout.FillDirection = Enum.FillDirection.Horizontal
+		actLayout.Padding = UDim.new(0, 6)
+
+		local function actionBtn(text, color, cmd, args)
+			local btn = Instance.new("TextButton", actRow)
+			btn.Text = text
+			btn.TextSize = 11
+			btn.Font = Enum.Font.GothamBold
+			btn.TextColor3 = color
+			btn.BackgroundColor3 = Color3.fromHex("#1A1A2E")
+			btn.Size = UDim2.new(0, 70, 1, 0)
+			btn.AutomaticSize = Enum.AutomaticSize.X
+			btn.BorderSizePixel = 0
+			uiCorner(btn, 6)
+			uiPadding(btn, 0, 8, 0, 8)
+			btn.MouseButton1Click:Connect(function()
+				RequestAction:FireServer("command", { command=cmd, args=args })
+			end)
+			btn.MouseEnter:Connect(function() tween(btn, {BackgroundColor3 = Color3.fromHex("#28283A")}, 0.1) end)
+			btn.MouseLeave:Connect(function() tween(btn, {BackgroundColor3 = Color3.fromHex("#1A1A2E")}, 0.1) end)
+			return btn
+		end
+
+		actionBtn("Teleport", PALETTE.accent2, "tp",    { pData.name })
+		actionBtn("Bring",    PALETTE.accent,  "bring", { pData.name })
+		actionBtn("Kick",     PALETTE.danger,  "kick",  { pData.name })
+		actionBtn("Respawn",  PALETTE.warn,    "respawn",{ pData.name })
+	end
+end
+
+local function renderAudit(tab)
+	for _, child in ipairs(tab:GetChildren()) do
+		if child:IsA("Frame") then child:Destroy() end
+	end
+
+	for i, entry in ipairs(auditEntries) do
+		local row = Instance.new("Frame", tab)
+		row.Size = UDim2.new(1, 0, 0, 34)
+		row.BackgroundColor3 = i % 2 == 0 and PALETTE.surface or PALETTE.surface2
+		row.BorderSizePixel = 0
+		uiCorner(row, 6)
+
+		local timeL = Instance.new("TextLabel", row)
+		timeL.Text = entry.time
+		timeL.TextSize = 11; timeL.Font = Enum.Font.GothamMedium
+		timeL.TextColor3 = PALETTE.textMuted; timeL.BackgroundTransparency = 1
+		timeL.Size = UDim2.new(0, 60, 1, 0); timeL.Position = UDim2.new(0, 8, 0, 0)
+		timeL.TextXAlignment = Enum.TextXAlignment.Left
+
+		local actorL = Instance.new("TextLabel", row)
+		actorL.Text = entry.actor
+		actorL.TextSize = 12; actorL.Font = Enum.Font.GothamBold
+		actorL.TextColor3 = PALETTE.accent2; actorL.BackgroundTransparency = 1
+		actorL.Size = UDim2.new(0, 100, 1, 0); actorL.Position = UDim2.new(0, 72, 0, 0)
+		actorL.TextXAlignment = Enum.TextXAlignment.Left
+
+		local cmdL = Instance.new("TextLabel", row)
+		cmdL.Text = entry.action:upper()
+		cmdL.TextSize = 11; cmdL.Font = Enum.Font.Code
+		cmdL.TextColor3 = PALETTE.warn; cmdL.BackgroundTransparency = 1
+		cmdL.Size = UDim2.new(0, 80, 1, 0); cmdL.Position = UDim2.new(0, 176, 0, 0)
+		cmdL.TextXAlignment = Enum.TextXAlignment.Left
+
+		local targetL = Instance.new("TextLabel", row)
+		targetL.Text = entry.target
+		targetL.TextSize = 11; targetL.Font = Enum.Font.GothamMedium
+		targetL.TextColor3 = PALETTE.text; targetL.BackgroundTransparency = 1
+		targetL.Size = UDim2.new(0, 120, 1, 0); targetL.Position = UDim2.new(0, 260, 0, 0)
+		targetL.TextXAlignment = Enum.TextXAlignment.Left
+
+		local detailL = Instance.new("TextLabel", row)
+		detailL.Text = tostring(entry.detail)
+		detailL.TextSize = 11; detailL.Font = Enum.Font.GothamMedium
+		detailL.TextColor3 = PALETTE.textMuted; detailL.BackgroundTransparency = 1
+		detailL.Size = UDim2.new(1, -390, 1, 0); detailL.Position = UDim2.new(0, 384, 0, 0)
+		detailL.TextXAlignment = Enum.TextXAlignment.Left; detailL.ClipsDescendants = true
+	end
+end
+
+OpenPanel.OnClientEvent:Connect(function(rank)
+	adminRank = rank
+	local btns, _, addResp = buildGUI(rank)
+	tabBtnsRef = btns
+	addCmdResponseRef = addResp
+	togglePanel(true)
+end)
+
+SyncPlayerData.OnClientEvent:Connect(function(data)
+	playerData = data
+	if GUI and GUI:GetAttribute("Built") and activeTab == "players" then
+		local tab = TabContents["players"]
+		if tab then renderPlayers(tab) end
+	end
+end)
+
+ActionResponse.OnClientEvent:Connect(function(ok, data)
+	if type(data) == "table" then
+		auditEntries = data
+		if activeTab == "audit" then
+			local tab = TabContents["audit"]
+			if tab then renderAudit(tab) end
+		end
+	else
+		if addCmdResponseRef then
+			addCmdResponseRef(ok, data)
+		end
+	end
+end)
+
+AuditBroadcast.OnClientEvent:Connect(function(kind, a, b)
+	if kind == "audit" then
+		table.insert(auditEntries, 1, a)
+		if activeTab == "audit" then
+			local tab = TabContents["audit"]
+			if tab then renderAudit(tab) end
+		end
+	elseif kind == "announce" then
+		if GUI then
+			local af = GUI:FindFirstChild("AnnounceFrame")
+			if af then
+				local lbl = af:FindFirstChild("AnnLabel")
+				if lbl then lbl.Text = "📢  " .. a .. ": " .. b end
+				af.Position = UDim2.new(0.5, -250, 0, -70)
+				tween(af, {Position = UDim2.new(0.5, -250, 0, 16)}, 0.3)
+				task.delay(5, function()
+					tween(af, {Position = UDim2.new(0.5, -250, 0, -70)}, 0.25)
+				end)
+			end
+		end
+	end
+end)
+
+UserInputService.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+	if input.KeyCode == Enum.KeyCode.G then
+		if GUI and panelOpen then
+			togglePanel(false)
+		else
+			RequestAction:FireServer("open_panel", {})
+		end
+	end
+end)`
+        },
+      ],
+    },
+    {
+      id:3, name:"DataStore Pro", type:"System",
+      image:"https://res.cloudinary.com/dz6lx92gj/image/upload/q_auto/f_auto/v1775859014/unnamed_sbh0ax.jpg",
+      desc:"Battle-tested save system with automatic retries, versioned backups and live migration support.",
+      features:["Auto-retry with exponential back-off","Versioned data schema migration","In-memory cache layer","Backup key redundancy","Global update signal bus"],
+      tags:["DataStoreService","ProfileService","MemoryStore","BindableEvent"],
+      files: [
+        {
+          name: "DataStoreServer",
+          language: "lua",
+          code:
+`local Players    = game:GetService("Players")
+local DSP        = require(script.Parent.DataStoreModule)
+
+DSP.startAutoSave()
+
+Players.PlayerAdded:Connect(function(player)
+	local profile = DSP.loadProfile(player)
+	if not profile then
+		warn("[Server] Failed to load profile for", player.Name)
+		return
+	end
+
+	profile:setNested("Stats", "LastLogin", os.time())
+
+	if profile:get("JoinDate") == os.time() then
+		profile:increment("Coins", 100)
+		print("[Server] First-join bonus awarded to", player.Name)
+	end
+
+	DSP.Updated:Connect(function(userId, key, value)
+		if userId ~= player.UserId then return end
+		local ls = player:FindFirstChild("leaderstats")
+		if ls then
+			if key == "Coins" and ls:FindFirstChild("Coins") then
+				ls.Coins.Value = value
+			end
+			if key == "Level" and ls:FindFirstChild("Level") then
+				ls.Level.Value = value
+			end
+		end
+	end)
+
+	local ls = Instance.new("Folder", player)
+	ls.Name = "leaderstats"
+	local coinsVal = Instance.new("IntValue", ls)
+	coinsVal.Name = "Coins"
+	coinsVal.Value = profile:get("Coins") or 0
+	local levelVal = Instance.new("IntValue", ls)
+	levelVal.Name = "Level"
+	levelVal.Value = profile:get("Level") or 1
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+	local profile = DSP.getProfile(player)
+	if profile then
+		local joined = profile:get("JoinDate") or os.time()
+		local session = math.floor(os.time() - joined)
+		local current = profile.data.Stats and profile.data.Stats.PlayTime or 0
+		profile:setNested("Stats", "PlayTime", current + session)
+	end
+	DSP.releaseProfile(player)
+end)
+
+game:BindToClose(function()
+	DSP.stopAutoSave()
+	for _, player in ipairs(Players:GetPlayers()) do
+		DSP.releaseProfile(player)
+	end
+	task.wait(3)
+end)
+
+task.spawn(function()
+	while true do
+		task.wait(30)
+		DSP.pollGlobalUpdates(function(payload)
+			if payload.type == "award_coins" then
+				local target = Players:GetPlayerByUserId(payload.userId)
+				if target then
+					local profile = DSP.getProfile(target)
+					if profile then
+						profile:increment("Coins", payload.amount)
+						print(string.format("[DSP] Awarded %d coins to userId %d via global bus",
+							payload.amount, payload.userId))
+					end
+				end
+			end
+		end)
+	end
+end)
+
+print(DSP.getCacheStats())
+DSP.pushGlobalUpdate({ type="award_coins", userId=12345678, amount=500 }, 300)
+print(DSP.getCacheStats())`
+        },
+                {
+          name: "DataStoreModule",
+          language: "lua",
+          code:
+`local CONFIG = {
+	STORE_NAME      = "PlayerData_v1",
+	BACKUP_STORE    = "PlayerData_Backup_v1",
+	MEMORY_QUEUE    = "DSP_GlobalUpdates",
+	AUTOSAVE_INTERVAL = 60,
+	MAX_RETRIES     = 5,
+	BASE_DELAY      = 1,
+	MAX_DELAY       = 30,
+	CACHE_TTL       = 300,
+	SCHEMA_VERSION  = 3,
+	DEFAULT_DATA = {
+		Version     = 3,
+		Coins       = 0,
+		Gems        = 0,
+		XP          = 0,
+		Level       = 1,
+		Inventory   = {},
+		Settings    = {
+			Music     = true,
+			SFX       = true,
+			Quality   = "High",
+		},
+		Stats = {
+			PlayTime  = 0,
+			Wins      = 0,
+			Deaths    = 0,
+		},
+		JoinDate    = 0,
+		LastSeen    = 0,
+	},
+}
+
+local DataStoreService  = game:GetService("DataStoreService")
+local MemoryStoreService= game:GetService("MemoryStoreService")
+local Players           = game:GetService("Players")
+local RunService        = game:GetService("RunService")
+local HttpService       = game:GetService("HttpService")
+
+local mainStore   = DataStoreService:GetDataStore(CONFIG.STORE_NAME)
+local backupStore = DataStoreService:GetDataStore(CONFIG.BACKUP_STORE)
+local memQueue    = MemoryStoreService:GetQueue(CONFIG.MEMORY_QUEUE)
+
+local DataStorePro = {}
+DataStorePro.__index = DataStorePro
+
+local cache = {}
+
+local UpdateSignal = Instance.new("BindableEvent")
+DataStorePro.Updated = UpdateSignal.Event
+
+local function deepCopy(t)
+	if type(t) ~= "table" then return t end
+	local copy = {}
+	for k, v in pairs(t) do
+		copy[k] = deepCopy(v)
+	end
+	return copy
+end
+
+local function retry(fn, label)
+	local delay = CONFIG.BASE_DELAY
+	for attempt = 1, CONFIG.MAX_RETRIES do
+		local ok, result = pcall(fn)
+		if ok then
+			return true, result
+		end
+
+		warn(string.format(
+			"[DSP] %s — attempt %d/%d failed: %s",
+			label or "operation", attempt, CONFIG.MAX_RETRIES, tostring(result)
+		))
+
+		if attempt < CONFIG.MAX_RETRIES then
+			task.wait(math.min(delay, CONFIG.MAX_DELAY))
+			delay = delay * 2
+		end
+	end
+	return false, "Max retries exceeded for: " .. (label or "operation")
+end
+
+local MIGRATIONS = {
+	[0] = function(data)
+		data.Settings = data.Settings or deepCopy(CONFIG.DEFAULT_DATA.Settings)
+		data.Version  = 1
+		return data
+	end,
+
+	[1] = function(data)
+		data.Stats    = data.Stats or deepCopy(CONFIG.DEFAULT_DATA.Stats)
+		data.Score    = nil
+		data.Version  = 2
+		return data
+	end,
+
+	[2] = function(data)
+		data.Gems     = data.Gems     or 0
+		data.JoinDate = data.JoinDate or os.time()
+		data.LastSeen = data.LastSeen or os.time()
+		data.Version  = 3
+		return data
+	end,
+}
+
+local function migrate(data)
+	local startVersion = data.Version or 0
+	if startVersion >= CONFIG.SCHEMA_VERSION then return data end
+
+	for v = startVersion, CONFIG.SCHEMA_VERSION - 1 do
+		local migration = MIGRATIONS[v]
+		if migration then
+			local ok, result = pcall(migration, data)
+			if ok then
+				data = result
+				print(string.format("[DSP] Migrated schema v%d → v%d", v, v + 1))
+			else
+				warn(string.format("[DSP] Migration v%d failed: %s", v, tostring(result)))
+			end
+		else
+			data.Version = v + 1
+		end
+	end
+
+	return data
+end
+
+local Profile = {}
+Profile.__index = Profile
+
+function Profile.new(userId, data)
+	return setmetatable({
+		userId    = userId,
+		data      = data,
+		_dirty    = false,
+		_released = false,
+		_sessionId= HttpService:GenerateGUID(false),
+	}, Profile)
+end
+
+function Profile:get(key)
+	return self.data[key]
+end
+
+function Profile:set(key, value)
+	if self._released then
+		warn("[DSP] Attempted write on released profile for userId:", self.userId)
+		return
+	end
+	self.data[key] = value
+	self._dirty = true
+	UpdateSignal:Fire(self.userId, key, value)
+end
+
+function Profile:increment(key, amount)
+	local cur = self.data[key]
+	if type(cur) ~= "number" then
+		warn("[DSP] increment: key '" .. key .. "' is not a number")
+		return
+	end
+	self:set(key, cur + (amount or 1))
+end
+
+function Profile:setNested(tableKey, key, value)
+	if self._released then return end
+	if type(self.data[tableKey]) ~= "table" then
+		self.data[tableKey] = {}
+	end
+	self.data[tableKey][key] = value
+	self._dirty = true
+	UpdateSignal:Fire(self.userId, tableKey .. "." .. key, value)
+end
+
+function Profile:append(key, value)
+	if self._released then return end
+	if type(self.data[key]) ~= "table" then
+		self.data[key] = {}
+	end
+	table.insert(self.data[key], value)
+	self._dirty = true
+	UpdateSignal:Fire(self.userId, key, self.data[key])
+end
+
+function Profile:removeAt(key, index)
+	if self._released then return end
+	local arr = self.data[key]
+	if type(arr) ~= "table" then return end
+	table.remove(arr, index)
+	self._dirty = true
+	UpdateSignal:Fire(self.userId, key, arr)
+end
+
+function Profile:save()
+	return DataStorePro.saveProfile(self)
+end
+
+function DataStorePro.loadProfile(player)
+	local userId = player.UserId
+	local key    = "u_" .. userId
+
+	local cached = cache[userId]
+	if cached and (os.clock() - cached.loadedAt) < CONFIG.CACHE_TTL then
+		print("[DSP] Cache hit for userId:", userId)
+		return cached.profile
+	end
+
+	local ok, raw = retry(function()
+		return mainStore:GetAsync(key)
+	end, "GetAsync:" .. key)
+
+	local data
+	if ok and raw then
+		data = migrate(raw)
+	else
+		if not ok then
+			warn("[DSP] Load failed for", userId, "— using defaults. Error:", raw)
+		end
+		data = deepCopy(CONFIG.DEFAULT_DATA)
+		data.Version  = CONFIG.SCHEMA_VERSION
+		data.JoinDate = os.time()
+	end
+
+	data.LastSeen = os.time()
+
+	local profile = Profile.new(userId, data)
+
+	cache[userId] = {
+		profile   = profile,
+		loadedAt  = os.clock(),
+	}
+
+	print(string.format("[DSP] Loaded profile for %s (userId %d) — schema v%d",
+		player.Name, userId, data.Version or 0))
+
+	return profile
+end
+
+function DataStorePro.saveProfile(profileOrPlayer)
+	local profile
+	if typeof(profileOrPlayer) == "Instance" then
+		local cached = cache[profileOrPlayer.UserId]
+		if not cached then return false, "No cached profile" end
+		profile = cached.profile
+	else
+		profile = profileOrPlayer
+	end
+
+	if profile._released then
+		return false, "Profile already released"
+	end
+	if not profile._dirty then
+		return true, "No changes to save"
+	end
+
+	local userId = profile.userId
+	local key    = "u_" .. userId
+
+	local snapshot = deepCopy(profile.data)
+	snapshot.LastSeen = os.time()
+
+	local mainOk, mainErr = retry(function()
+		mainStore:SetAsync(key, snapshot)
+	end, "SetAsync(main):" .. key)
+
+	if not mainOk then
+		warn("[DSP] Main save FAILED for userId:", userId, mainErr)
+	end
+
+	local backupKey = "backup_" .. key .. "_" .. os.date("%Y%m%d")
+	local _, backupErr = retry(function()
+		backupStore:SetAsync(backupKey, snapshot)
+	end, "SetAsync(backup):" .. backupKey)
+
+	if backupErr then
+		warn("[DSP] Backup save failed for userId:", userId, backupErr)
+	end
+
+	if mainOk then
+		profile._dirty = false
+		print(string.format("[DSP] Saved profile for userId %d (v%d)",
+			userId, snapshot.Version or 0))
+	end
+
+	return mainOk, mainOk and "Saved" or mainErr
+end
+
+function DataStorePro.releaseProfile(player)
+	local userId = player.UserId
+	local cached = cache[userId]
+	if not cached then return end
+
+	local profile = cached.profile
+	DataStorePro.saveProfile(profile)
+
+	profile._released = true
+	cache[userId] = nil
+
+	print("[DSP] Released profile for userId:", userId)
+end
+
+function DataStorePro.wipeProfile(userId)
+	local key = "u_" .. userId
+	local ok, err = retry(function()
+		mainStore:RemoveAsync(key)
+	end, "RemoveAsync:" .. key)
+	cache[userId] = nil
+	if ok then
+		print("[DSP] Wiped profile for userId:", userId)
+	else
+		warn("[DSP] Wipe failed:", err)
+	end
+	return ok, err
+end
+
+function DataStorePro.restoreFromBackup(userId, date)
+	local key       = "u_" .. userId
+	local backupKey = "backup_" .. key .. "_" .. date
+
+	local ok, data = retry(function()
+		return backupStore:GetAsync(backupKey)
+	end, "RestoreBackup:" .. backupKey)
+
+	if not ok or not data then
+		warn("[DSP] No backup found for", userId, "on date", date)
+		return false, "Backup not found"
+	end
+
+	local saveOk, saveErr = retry(function()
+		mainStore:SetAsync(key, data)
+	end, "RestoreWrite:" .. key)
+
+	if saveOk then
+		cache[userId] = nil
+		print(string.format("[DSP] Restored userId %d from backup dated %s", userId, date))
+	end
+
+	return saveOk, saveOk and "Restored" or saveErr
+end
+
+function DataStorePro.pushGlobalUpdate(payload, ttl)
+	ttl = ttl or 300
+	local ok, err = retry(function()
+		memQueue:AddAsync(payload, ttl, 0)
+	end, "MemoryQueue:Push")
+	if not ok then
+		warn("[DSP] Failed to push global update:", err)
+	end
+	return ok
+end
+
+function DataStorePro.pollGlobalUpdates(handler, maxItems)
+	maxItems = maxItems or 20
+	local ok, items = retry(function()
+		return memQueue:ReadAsync(maxItems, false, 10)
+	end, "MemoryQueue:Poll")
+
+	if not ok or not items then return end
+
+	for _, item in ipairs(items) do
+		local success = pcall(handler, item.value)
+		if not success then
+			warn("[DSP] Global update handler error for item:", HttpService:JSONEncode(item.value))
+		end
+	end
+end
+
+local autoSaveRunning = false
+
+function DataStorePro.startAutoSave()
+	if autoSaveRunning then return end
+	autoSaveRunning = true
+
+	task.spawn(function()
+		while autoSaveRunning do
+			task.wait(CONFIG.AUTOSAVE_INTERVAL)
+			local count = 0
+			for userId, cached in pairs(cache) do
+				if cached.profile and cached.profile._dirty then
+					DataStorePro.saveProfile(cached.profile)
+					count += 1
+				end
+				task.wait(0.5)
+			end
+			if count > 0 then
+				print(string.format("[DSP] Auto-save complete — %d dirty profile(s) saved", count))
+			end
+		end
+	end)
+end
+
+function DataStorePro.stopAutoSave()
+	autoSaveRunning = false
+end
+
+function DataStorePro.getProfile(player)
+	local cached = cache[player.UserId]
+	return cached and cached.profile or nil
+end
+
+function DataStorePro.getCacheStats()
+	local count, dirty = 0, 0
+	for _, c in pairs(cache) do
+		count += 1
+		if c.profile._dirty then dirty += 1 end
+	end
+	return { total = count, dirty = dirty }
+end
+
+return DataStorePro`
+        },
+      ],
+    },
+  ],
+
+  services: [
+    {icon:"⚙️", name:"Gameplay Systems",  desc:"Combat, inventories, quests, abilities — fun mechanics built on solid foundations.", price:"From $40"},
+    {icon:"🎨", name:"UI Scripting",       desc:"Animated, responsive in-game interfaces that feel premium and native.", price:"From $25"},
+    {icon:"💾", name:"Datastores",         desc:"Reliable save systems, leaderboards and player profiles that never lose data.", price:"From $30"},
+    {icon:"⚡", name:"Optimization",       desc:"Script audits and rewrites to hit higher FPS and cut server overhead.", price:"From $20"},
+    {icon:"🛡️", name:"Anti-Cheat",        desc:"Server-authoritative exploit detection to keep your game fair.", price:"From $35"},
+    {icon:"🔧", name:"Bug Fixing",         desc:"Fast turnaround on broken scripts, race conditions and memory leaks.", price:"From $15"},
+  ],
+
+  testimonials: [
+   {name:"Noah",  role:"French Developer", initials:"N", stars:5,
+     text:"The quality, the deadlines more than met, and the customer contact are also excellent. I highly recommend OneWire to anyone looking for a reliable and skilled Roblox developer."},
+  ],
+};
+</script>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" id="nav-logo" href="#hero"></a>
+  <ul class="nav-links" id="nav-links"></ul>
+  <div class="nav-r">
+    <div class="avail-badge" id="avail-badge" style="display:none"><div class="avail-dot"></div>Available for work</div>
+    <button class="btn-sm" onclick="toggleTheme()" id="theme-btn">☀️ Light</button>
+    <button class="hamburger" onclick="toggleMob()">☰</button>
+  </div>
+</nav>
+<div class="mob-menu" id="mob-menu"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas class="hero-canvas" id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-avail" id="hero-avail" style="display:none"><div class="avail-dot"></div>Available for commissions</div>
+    <h1 class="hero-title" id="hero-title"></h1>
+    <p class="hero-tagline" id="hero-tagline"></p>
+    <div class="hero-btns">
+      <a href="#projects"><button class="btn-primary">View Projects →</button></a>
+      <a href="#contact"><button class="btn-outline">Hire Me</button></a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section" style="display:none">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="reveal-l">
+        <div class="section-eyebrow">About</div>
+        <h2 class="section-h">Who I am</h2>
+        <div class="divider"></div>
+        <p class="about-desc" id="about-bio"></p>
+        <div class="spec-wrap" id="spec-wrap"></div>
+      </div>
+      <div class="reveal-r">
+        <div class="about-visual">
+          <div class="avatar-ring"><div class="avatar-inner" id="avatar-inner"></div></div>
+          <div class="about-name-card"><h3 id="about-name"></h3><p id="about-title-label"></p></div>
+          <div class="about-stats" id="about-stats"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section" style="display:none">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Tech Stack</div>
+      <h2 class="section-h">Skills</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="skills-grid reveal" id="skills-grid"></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section" style="display:none">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Work</div>
+      <h2 class="section-h">Projects</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="filter-wrap reveal" id="filter-wrap"></div>
+    <div class="proj-grid" id="proj-grid"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section" style="display:none">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">What I offer</div>
+      <h2 class="section-h">Services</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="svc-grid reveal" id="svc-grid"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="section" style="display:none">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Social Proof</div>
+      <h2 class="section-h">What clients say</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="testi-grid reveal" id="testi-grid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section" style="display:none">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Let's work together</div>
+      <h2 class="section-h">Get in touch</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-grid reveal">
+      <div>
+        <div class="contact-info-head">
+          <h3>Ready to start a project?</h3>
+          <p>Send a message or reach me on Discord. I reply within 24 hours and offer a free consultation for new projects.</p>
+        </div>
+        <div class="c-links" id="c-links"></div>
+      </div>
+      <form class="contact-form" id="contact-form" onsubmit="sendForm(event)">
+        <div class="form-row">
+          <div class="f-group"><label>First Name *</label><input name="from_firstname" placeholder="Alex" required></div>
+          <div class="f-group"><label>Last Name *</label><input name="from_lastname" placeholder="Smith" required></div>
+        </div>
+        <div class="f-group"><label>Email *</label><input type="email" name="reply_to" placeholder="alex@email.com" required></div>
+        <div class="f-group"><label>Project Type</label>
+          <select name="project_type">
+            <option value="">Select a service...</option>
+            <option>Gameplay System</option><option>UI Scripting</option>
+            <option>Datastore</option><option>Optimization</option>
+            <option>Anti-Cheat</option><option>Bug Fix</option><option>Other</option>
+          </select>
+        </div>
+        <div class="f-group"><label>Budget (USD)</label><input name="budget" placeholder="e.g. $50 – $150"></div>
+        <div class="f-group"><label>Message *</label><textarea name="message" placeholder="Describe your project, goals and timeline..." required></textarea></div>
+        <div class="form-status" id="form-status"></div>
+        <button type="submit" class="btn-primary" id="form-btn">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-l" id="footer-copy"></span>
+  <div class="footer-r">
+    <a href="#hero">Home</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="sticky-cta" style="display:none">
+  <a href="#contact">Hire Me →</a>
+</div>
+
+<!-- PROJECT MODAL -->
+<div class="modal-bg" id="modal" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-head" id="modal-head"></div>
+    <div class="modal-tabs" id="modal-tabs"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('portfolio-theme') || C.defaultTheme;
+  if (saved === 'light') document.documentElement.setAttribute('data-theme','light');
+  document.getElementById('theme-btn').textContent = saved==='light' ? '🌙 Dark' : '☀️ Light';
+  document.documentElement.style.setProperty('--a1', C.accent1);
+  document.documentElement.style.setProperty('--a2', C.accent2);
+
+  // SEO
+  document.title = C.name + ' — ' + C.title;
+  document.getElementById('meta-desc').content = C.tagline.replace(/\n/,' ');
+  document.getElementById('meta-keywords').content = C.seoKeywords;
+  document.getElementById('og-title').content = C.name + ' — ' + C.title;
+  document.getElementById('og-desc').content = C.tagline.replace(/\n/,' ');
+
+  // Nav
+  document.getElementById('nav-logo').textContent = C.name;
+  const navItems = [['about','About'],['skills','Skills'],['projects','Projects'],['services','Services'],['testimonials','Clients'],['contact','Contact']];
+  const ul = document.getElementById('nav-links'), mm = document.getElementById('mob-menu');
+  navItems.forEach(([id,label]) => {
+    if (!C.sections[id]) return;
+    ul.innerHTML += `<li><a href="#${id}">${label}</a></li>`;
+    mm.innerHTML += `<a href="#${id}" onclick="closeMob()">${label}</a>`;
+  });
+
+  if (C.available) {
+    document.getElementById('avail-badge').style.display='flex';
+    document.getElementById('hero-avail').style.display='inline-flex';
+    document.getElementById('sticky-cta').style.display='block';
+  }
+
+  // Hero
+  document.getElementById('hero-title').innerHTML = `Hi, I'm <span class="grad">${C.name}</span><br><span style="color:var(--t2);font-weight:600">${C.title}</span>`;
+  document.getElementById('hero-tagline').innerHTML = C.tagline.replace(/\n/,'<br>') + `<br><span style="font-size:.9rem">${C.tagline2}</span>`;
+
+  // About
+  if (C.sections.about) {
+    document.getElementById('about').style.display='block';
+    document.getElementById('about-bio').textContent = C.bio;
+    document.getElementById('about-name').textContent = C.name;
+    document.getElementById('about-title-label').textContent = C.title;
+    const av = document.getElementById('avatar-inner');
+    if (C.avatar) av.innerHTML = `<img src="${C.avatar}" alt="${C.name}" loading="lazy">`;
+    else av.textContent = C.avatarEmoji;
+    C.specialties.forEach(s => { document.getElementById('spec-wrap').innerHTML += `<span class="spec-tag">${s}</span>`; });
+    const statsData = [{num:C.stats.experience,label:'Years experience'},{num:C.stats.projects,label:'Projects shipped'},{num:C.stats.clients,label:'Happy clients'},{num:C.stats.delivery,label:'On-time delivery'}];
+    statsData.forEach(s => { document.getElementById('about-stats').innerHTML += `<div class="stat-box"><div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div></div>`; });
+  }
+
+  // Skills
+  if (C.sections.skills) {
+    document.getElementById('skills').style.display='block';
+    C.skills.forEach(s => { document.getElementById('skills-grid').innerHTML += `<div class="skill-card"><div class="skill-row"><span class="skill-name">${s.name}</span><span class="skill-pct">${s.pct}%</span></div><div class="skill-track"><div class="skill-bar" data-pct="${s.pct}"></div></div></div>`; });
+  }
+
+  // Projects
+  if (C.sections.projects) {
+    document.getElementById('projects').style.display='block';
+    const types = ['All',...new Set(C.projects.map(p=>p.type))];
+    const fw = document.getElementById('filter-wrap');
+    types.forEach((t,i) => {
+      const b = document.createElement('button');
+      b.className = 'f-btn'+(i===0?' active':''); b.textContent=t; b.dataset.f=t;
+      b.onclick = () => filterProj(t,b); fw.appendChild(b);
+    });
+    renderProjects('All');
+  }
+
+  // Services
+  if (C.sections.services) {
+    document.getElementById('services').style.display='block';
+    C.services.forEach(s => { document.getElementById('svc-grid').innerHTML += `<div class="svc-card"><div class="svc-icon-wrap">${s.icon}</div><div class="svc-name">${s.name}</div><div class="svc-desc">${s.desc}</div><span class="svc-price">${s.price}</span></div>`; });
+  }
+
+  // Testimonials
+  if (C.sections.testimonials) {
+    document.getElementById('testimonials').style.display='block';
+    C.testimonials.forEach(t => { document.getElementById('testi-grid').innerHTML += `<div class="testi-card"><div class="testi-quote">"</div><p class="testi-text">${t.text}</p><div class="testi-footer"><div class="testi-avatar">${t.initials}</div><div><div class="testi-name">${t.name}</div><div class="testi-role">${t.role}</div></div><div class="testi-stars">${'<span class="star">★</span>'.repeat(t.stars)}</div></div></div>`; });
+  }
+
+  // Contact
+  if (C.sections.contact) {
+    document.getElementById('contact').style.display='block';
+    document.getElementById('c-links').innerHTML = `
+      <div class="c-link" onclick="copyText('${C.discord}','Discord copied!')">
+        <div class="c-link-ico" style="background:rgba(88,101,242,.12);color:#5865F2">💬</div>
+        <div><div class="c-link-label">Discord</div><div class="c-link-val">${C.discord}</div></div>
+        <span class="c-link-copy">Copy</span>
+      </div>
+      <div class="c-link" onclick="copyText('${C.email}','Email copied!')">
+        <div class="c-link-ico" style="background:rgba(124,58,237,.12);color:var(--a1)">✉️</div>
+        <div><div class="c-link-label">Email</div><div class="c-link-val">${C.email}</div></div>
+        <span class="c-link-copy">Copy</span>
+      </div>`;
+  }
+
+  document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} ${C.name} — All rights reserved.`;
+  if (C.emailjs.publicKey !== 'YOUR_PUBLIC_KEY') emailjs.init(C.emailjs.publicKey);
+  setupObservers();
+  initCanvas();
+});
+
+/* ── PROJECTS ── */
+function renderProjects(filter) {
+  const list = filter==='All' ? C.projects : C.projects.filter(p=>p.type===filter);
+  document.getElementById('proj-grid').innerHTML = list.map(p => `
+    <div class="proj-card reveal" onclick="openModal(${p.id})">
+      <div class="proj-thumb">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" loading="lazy">` : `<div class="proj-thumb-placeholder">${p.emoji||'🎮'}</div>`}
+        <span class="proj-type-chip">${p.type}</span>
+      </div>
+      <div class="proj-body">
+        <div class="proj-name">${p.name}</div>
+        <div class="proj-desc">${p.desc}</div>
+        <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
+        <span class="proj-cta">View details →</span>
+      </div>
+    </div>`).join('');
+  reObserve();
+}
+function filterProj(type, btn) {
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProjects(type);
+}
+
+/* ══════════════════════════════════════
+   MODAL + CODE VIEWER
+══════════════════════════════════════ */
+let activeModalTab = 'overview';
+let activeFileIdx  = 0;
+
+function openModal(id) {
+  const p = C.projects.find(x => x.id === id);
+  if (!p) return;
+
+  activeModalTab = 'overview';
+  activeFileIdx  = 0;
+
+  const hasCode = p.files && p.files.length > 0;
+
+  // Header
+  document.getElementById('modal-head').innerHTML = `
+    <div class="modal-head-left">
+      <h2>${p.name}</h2>
+      <span>${p.type}</span>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>`;
+
+  // Tab bar
+  const tabBar = document.getElementById('modal-tabs');
+  tabBar.innerHTML = `
+    <button class="modal-tab active" id="tab-overview" onclick="switchModalTab('overview',${id})">Overview</button>
+    <button class="modal-tab" id="tab-code" onclick="switchModalTab('code',${id})">
+      Code ${hasCode ? `<span style="margin-left:.3rem;font-size:.68rem;padding:.1rem .45rem;border-radius:99px;background:rgba(124,58,237,.2);color:var(--a1)">${p.files.length}</span>` : ''}
+    </button>`;
+
+  renderOverview(p);
+  document.getElementById('modal').classList.add('open');
+}
+
+function switchModalTab(tab, projectId) {
+  activeModalTab = tab;
+  document.getElementById('tab-overview').classList.toggle('active', tab==='overview');
+  document.getElementById('tab-code').classList.toggle('active', tab==='code');
+  const p = C.projects.find(x => x.id === projectId);
+  if (tab === 'overview') renderOverview(p);
+  else renderCode(p);
+}
+
+function renderOverview(p) {
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-overview">
+      <div class="modal-img">${p.image ? `<img src="${p.image}" alt="${p.name}">` : (p.emoji||'🎮')}</div>
+      <p class="modal-desc">${p.desc}</p>
+      <div class="modal-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
+      <div class="modal-section-title">Key Features</div>
+      ${p.features.map(f=>`<div class="modal-feat"><span class="modal-feat-icon">▸</span>${f}</div>`).join('')}
+    </div>`;
+}
+
+/* ── LUA SYNTAX HIGHLIGHTER ── */
+function highlightLua(code) {
+  const keywords = /\b(and|break|do|else|elseif|end|false|for|function|goto|if|in|local|nil|not|or|repeat|return|then|true|until|while|continue)\b/g;
+  const builtins = /\b(print|warn|error|tostring|tonumber|type|pairs|ipairs|next|select|unpack|table|string|math|os|task|game|workspace|script|require|Instance|Vector3|CFrame|Color3|UDim|UDim2|Enum|Enum\.\w+|TweenInfo|Ray|BrickColor|pcall|xpcall|rawget|rawset|setmetatable|getmetatable|assert)\b/g;
+  const strings  = /(["'])(?:(?!\1)[^\\]|\\.)*\1|(\[\[[\s\S]*?\]\])/g;
+  const numbers  = /\b(\d+\.?\d*)\b/g;
+  const comments = /--.*/g;
+  const mlComments = /--\[\[[\s\S]*?\]\]/g;
+
+  // Escape HTML first
+  let s = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  // Order matters: multi-line comments first, then single-line
+  // Use placeholders to avoid double-wrapping
+  const ph = [];
+  const plc = (html) => { ph.push(html); return `\x00${ph.length-1}\x00`; };
+
+  s = s.replace(mlComments, m => plc(`<span class="cmt">${m}</span>`));
+  s = s.replace(strings,    m => plc(`<span class="str">${m}</span>`));
+  s = s.replace(comments,   m => plc(`<span class="cmt">${m}</span>`));
+  s = s.replace(keywords,   m => `<span class="kw">${m}</span>`);
+  s = s.replace(builtins,   m => `<span class="builtin">${m}</span>`);
+  s = s.replace(numbers,    m => `<span class="num">${m}</span>`);
+
+  // Restore placeholders
+  s = s.replace(/\x00(\d+)\x00/g, (_, i) => ph[+i]);
+  return s;
+}
+
+function renderCode(p) {
+  const body = document.getElementById('modal-body');
+  const hasFiles = p.files && p.files.length > 0;
+
+  if (!hasFiles) {
+    body.innerHTML = `
+      <div class="modal-code-wrap">
+        <div class="code-empty">
+          <div class="code-empty-icon">📂</div>
+          <p>No code attached to this project yet.<br>
+          Add files in the <code>files</code> array inside the project config.</p>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const file = p.files[activeFileIdx];
+  const lines = file.code.split('\n');
+  const isLua = (file.language || '').toLowerCase() === 'lua';
+
+  const fileTabsHtml = p.files.map((f,i) => {
+    const ext = f.name.split('.').pop();
+    const dotColor = ext==='lua' ? '#C084FC' : '#60A5FA';
+    return `<button class="code-file-tab ${i===activeFileIdx?'active':''}" onclick="switchFile(${p.id},${i})">
+      <span class="code-file-dot" style="background:${dotColor}"></span>${f.name}
+    </button>`;
+  }).join('');
+
+  const codeHtml = lines.map((line, i) => {
+    const highlighted = isLua ? highlightLua(line) : line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="code-line"><span class="code-ln">${i+1}</span><span class="code-text">${highlighted}</span></div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="modal-code-wrap" style="display:flex;flex-direction:column;height:100%">
+      <div class="code-file-tabs">${fileTabsHtml}</div>
+      <div class="code-toolbar">
+        <span class="code-lang-badge">${(file.language||'text').toUpperCase()}</span>
+        <div class="code-toolbar-r">
+          <span class="code-lines-count">${lines.length} lines</span>
+          <button class="code-copy-btn" id="copy-btn" onclick="copyCode(${p.id})">⎘ Copy</button>
+        </div>
+      </div>
+      <div class="code-scroll" style="flex:1">
+        <div class="code-block">${codeHtml}</div>
+      </div>
+    </div>`;
+}
+
+function switchFile(projectId, fileIdx) {
+  activeFileIdx = fileIdx;
+  const p = C.projects.find(x => x.id === projectId);
+  renderCode(p);
+}
+
+function copyCode(projectId) {
+  const p = C.projects.find(x => x.id === projectId);
+  if (!p || !p.files[activeFileIdx]) return;
+  navigator.clipboard.writeText(p.files[activeFileIdx].code).then(() => {
+    const btn = document.getElementById('copy-btn');
+    if (btn) { btn.textContent = '✓ Copied'; btn.classList.add('copied'); }
+    setTimeout(() => {
+      if (btn) { btn.textContent = '⎘ Copy'; btn.classList.remove('copied'); }
+    }, 2000);
+  });
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal'))
+    document.getElementById('modal').classList.remove('open');
+}
+
+/* ── FORM ── */
+async function sendForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('form-btn'), status = document.getElementById('form-status');
+  btn.textContent='Sending…'; btn.disabled=true; status.className='form-status'; status.style.display='none';
+  if (C.emailjs.publicKey==='YOUR_PUBLIC_KEY') {
+    await new Promise(r=>setTimeout(r,1200));
+    status.className='form-status ok'; status.textContent="✓ Message sent! I'll get back to you within 24 hours."; status.style.display='block';
+    e.target.reset(); btn.textContent='Send Message →'; btn.disabled=false; return;
+  }
+  try {
+    await emailjs.sendForm(C.emailjs.serviceId, C.emailjs.templateId, e.target);
+    status.className='form-status ok'; status.textContent="✓ Message sent! I'll reply within 24 hours."; e.target.reset();
+  } catch {
+    status.className='form-status err'; status.textContent='⚠ Failed to send. Please reach me directly on Discord.';
+  }
+  status.style.display='block'; btn.textContent='Send Message →'; btn.disabled=false;
+}
+
+/* ── UTILS ── */
+function copyText(txt,msg) { navigator.clipboard.writeText(txt).then(()=>toast(msg)); }
+function toast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+function toggleTheme() {
+  const html=document.documentElement, isLight=html.hasAttribute('data-theme');
+  if (isLight) { html.removeAttribute('data-theme'); localStorage.setItem('portfolio-theme','dark'); document.getElementById('theme-btn').textContent='☀️ Light'; }
+  else { html.setAttribute('data-theme','light'); localStorage.setItem('portfolio-theme','light'); document.getElementById('theme-btn').textContent='🌙 Dark'; }
+}
+function toggleMob() { document.getElementById('mob-menu').classList.toggle('open'); }
+function closeMob() { document.getElementById('mob-menu').classList.remove('open'); }
+window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY>40));
+
+/* ── OBSERVERS ── */
+function setupObservers() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.skill-bar').forEach(b => { b.style.width=b.dataset.pct+'%'; });
+      }
+    });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+}
+function reObserve() {
+  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:.1});
+  document.querySelectorAll('.reveal:not(.visible),.reveal-l:not(.visible),.reveal-r:not(.visible)').forEach(el=>obs.observe(el));
+}
+
+/* ── CANVAS ── */
+function initCanvas() {
+  const canvas=document.getElementById('hero-canvas'), ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+  const COLORS=['#7C3AED','#06B6D4','#F59E0B'];
+  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+  window.addEventListener('resize',resize); resize();
+  for(let i=0;i<60;i++) pts.push({x:Math.random()*2000,y:Math.random()*1000,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1,c:COLORS[Math.floor(Math.random()*3)],a:Math.random()});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.c+(Math.floor(p.a*255).toString(16).padStart(2,'0')); ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(124,58,237,${.18*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
