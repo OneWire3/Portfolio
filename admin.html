@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080810;--bg2:#0F0F1A;--bg3:#161624;--bg4:#1E1E30;
+  --t1:#F0F0F8;--t2:#9090A8;--t3:#5A5A72;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --a1:#7C3AED;--a2:#06B6D4;
+  --success:#10B981;--danger:#EF4444;--warn:#F59E0B;
+  --font:'Inter',system-ui,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);min-height:100vh;padding:2rem}
+h1{font-size:1.4rem;font-weight:800;margin-bottom:.25rem;background:linear-gradient(135deg,var(--a1),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{font-size:.85rem;color:var(--t3);margin-bottom:2rem}
+.login-box{max-width:380px;margin:5rem auto;background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:2rem}
+.login-box h2{font-size:1.1rem;font-weight:700;margin-bottom:1.25rem}
+.field{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.field label{font-size:.75rem;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}
+.field input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;color:var(--t1);font-family:var(--font);font-size:.9rem;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--a1)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.1rem;border-radius:8px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--a1),var(--a2));color:#fff}
+.btn-primary:hover{opacity:.85}
+.btn-approve{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--success)}
+.btn-approve:hover{background:rgba(16,185,129,.28)}
+.btn-reject{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:var(--danger)}
+.btn-reject:hover{background:rgba(239,68,68,.25)}
+.btn-delete{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:var(--danger)}
+.btn-delete:hover{background:rgba(239,68,68,.2)}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.tabs{display:flex;gap:.5rem}
+.tab{padding:.4rem .9rem;border-radius:99px;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer;transition:all .2s}
+.tab.active{background:var(--a1);border-color:var(--a1);color:#fff}
+.count-badge{display:inline-block;padding:.1rem .45rem;border-radius:99px;font-size:.65rem;font-weight:700;background:rgba(239,68,68,.2);color:var(--danger);margin-left:.3rem}
+.review-grid{display:flex;flex-direction:column;gap:.85rem}
+.review-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem;transition:border-color .2s}
+.review-card.pending{border-left:3px solid var(--warn)}
+.review-card.approved{border-left:3px solid var(--success)}
+.review-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.75rem}
+.review-card-meta h3{font-size:.95rem;font-weight:700;margin-bottom:.15rem}
+.review-card-meta p{font-size:.78rem;color:var(--t3)}
+.review-stars{color:var(--warn);font-size:.85rem;letter-spacing:.1rem}
+.review-text{font-size:.875rem;color:var(--t2);line-height:1.7;margin-bottom:1rem;font-style:italic}
+.review-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.review-date{font-size:.72rem;color:var(--t3);margin-left:auto;align-self:flex-end}
+.empty{text-align:center;padding:3rem;color:var(--t3);font-size:.875rem;background:var(--bg2);border:1px dashed var(--border2);border-radius:14px}
+.status-msg{padding:.65rem 1rem;border-radius:8px;font-size:.82rem;margin-bottom:1rem;display:none}
+.status-msg.ok{display:block;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--success)}
+.status-msg.err{display:block;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--danger)}
+.spinner{text-align:center;color:var(--t3);padding:2rem;font-size:.875rem}
+.logout-btn{padding:.35rem .8rem;border-radius:8px;font-size:.78rem;font-weight:600;border:1px solid var(--border2);background:transparent;color:var(--t2);cursor:pointer;transition:all .2s}
+.logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+</style>
+</head>
+<body>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────────
+// Same values as your portfolio
+const SUPABASE_URL  = 'https://mavfzfoaxwdgumizfpdw.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hdmZ6Zm9heHdkZ3VtaXpmcGR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNzA3NTIsImV4cCI6MjA5MTY0Njc1Mn0.oX5ZGroZ-c8SmcLKzVBmAzdrxCNbzOISm7Th0N6uZHM';
+
+// Admin password (stored locally — simple protection)
+// Change this to something only you know
+const ADMIN_PASSWORD = 'changeme123';
+// ───────────────────────────────────────────────────────────
+
+let sb, currentTab = 'pending', allReviews = [];
+
+function initSB() {
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+}
+
+/* ── AUTH (local password, no server needed) ── */
+function checkAuth() {
+  return sessionStorage.getItem('admin_auth') === '1';
+}
+
+function tryLogin(e) {
+  e.preventDefault();
+  const pw = document.getElementById('pw-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem('admin_auth', '1');
+    showPanel();
+  } else {
+    document.getElementById('login-err').textContent = 'Wrong password.';
+    document.getElementById('login-err').style.color = '#EF4444';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+}
+
+/* ── RENDER ── */
+function showLogin() {
+  document.body.innerHTML = `
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <form onsubmit="tryLogin(event)">
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="pw-input" placeholder="Enter admin password" required autofocus>
+        </div>
+        <p id="login-err" style="font-size:.78rem;margin-bottom:.75rem"></p>
+        <button type="submit" class="btn btn-primary">Login →</button>
+      </form>
+    </div>`;
+  // Re-bind after innerHTML wipe
+  document.querySelector('form').addEventListener('submit', tryLogin);
+}
+
+function showPanel() {
+  document.body.innerHTML = `
+    <div class="header">
+      <div>
+        <h1>Review Admin</h1>
+        <p class="subtitle">Approve or reject submitted reviews before they go live.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div class="tabs">
+          <button class="tab active" id="tab-pending" onclick="switchTab('pending')">
+            Pending <span class="count-badge" id="pending-count">0</span>
+          </button>
+          <button class="tab" id="tab-approved" onclick="switchTab('approved')">Approved</button>
+          <button class="tab" id="tab-all" onclick="switchTab('all')">All</button>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    <div id="status-msg" class="status-msg"></div>
+    <div id="review-list"><div class="spinner">Loading reviews…</div></div>`;
+  initSB();
+  fetchReviews();
+}
+
+async function fetchReviews() {
+  try {
+    const { data, error } = await sb
+      .from('reviews')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    allReviews = data || [];
+    updatePendingCount();
+    renderList();
+  } catch(e) {
+    document.getElementById('review-list').innerHTML =
+      `<div class="empty">Failed to load reviews: ${e.message}</div>`;
+  }
+}
+
+function updatePendingCount() {
+  const n = allReviews.filter(r => !r.approved).length;
+  document.getElementById('pending-count').textContent = n;
+  document.getElementById('pending-count').style.display = n > 0 ? '' : 'none';
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  ['pending','approved','all'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+  renderList();
+}
+
+function renderList() {
+  let list = allReviews;
+  if (currentTab === 'pending')  list = allReviews.filter(r => !r.approved);
+  if (currentTab === 'approved') list = allReviews.filter(r =>  r.approved);
+
+  const container = document.getElementById('review-list');
+  if (list.length === 0) {
+    container.innerHTML = `<div class="empty">No reviews here yet.</div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(r => {
+    const date = new Date(r.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+    const approvedBtns = r.approved
+      ? `<button class="btn btn-reject" onclick="setApproved('${r.id}',false)">↩ Unapprove</button>`
+      : `<button class="btn btn-approve" onclick="setApproved('${r.id}',true)">✓ Approve</button>`;
+    return `
+      <div class="review-card ${r.approved?'approved':'pending'}" id="card-${r.id}">
+        <div class="review-card-head">
+          <div class="review-card-meta">
+            <h3>${esc(r.name)}</h3>
+            <p>${esc(r.role)}</p>
+          </div>
+          <div style="text-align:right">
+            <div class="review-stars">${stars}</div>
+            <div class="review-date">${date}</div>
+          </div>
+        </div>
+        <p class="review-text">"${esc(r.message)}"</p>
+        <div class="review-actions">
+          ${approvedBtns}
+          <button class="btn btn-delete" onclick="deleteReview('${r.id}')">🗑 Delete</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function setApproved(id, approved) {
+  const { error } = await sb.from('reviews').update({ approved }).eq('id', id);
+  if (error) { showStatus('Failed: ' + error.message, false); return; }
+  const r = allReviews.find(x => x.id === id);
+  if (r) r.approved = approved;
+  updatePendingCount();
+  renderList();
+  showStatus(approved ? '✓ Review approved and now live.' : '↩ Review unapproved.', true);
+}
+
+async function deleteReview(id) {
+  if (!confirm('Permanently delete this review?')) return;
+  const { error } = await sb.from('reviews').delete().eq('id', id);
+  if (error) { showStatus('Delete failed: ' + error.message, false); return; }
+  allReviews = allReviews.filter(x => x.id !== id);
+  updatePendingCount();
+  renderList();
+  showStatus('Review deleted.', true);
+}
+
+function showStatus(msg, ok) {
+  const el = document.getElementById('status-msg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + (ok ? 'ok' : 'err');
+  setTimeout(() => { el.className = 'status-msg'; }, 3500);
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Boot
+if (checkAuth()) showPanel();
+else showLogin();
+</script>
+</body>
+</html>
